@@ -1,0 +1,39 @@
+Go Inclues a Runtime
+    GO binarier inculede a a small runtime that provides features like 
+    garbage collection, goroutine,scheduling, and memory sagety.
+    THsi runtime is embedded into the complied binary, which is why GO binarier are self contained and
+    do not require Go compiler or runtime to be installed on the target system.
+
+1. GO Binarier are statically complied
+    when you compile a  GO program(eg go build) the output is a self contained binary.
+    this binary includes
+        your application code 
+        your go standart library
+        and the runtime
+
+2. what is GO runtime?
+    Its a light weight layer that provides
+        Garbage colletion 
+        Goroutine scheduling(like lightweihgt threads)
+        stack management
+        memory safety checks
+        Interace method resolution
+
+
+3. why is it Embedded in the binary?
+    
+    so that no exteranl dependencies like(Jvm for java or interpreter for python) are needed on the target machine
+    YOu can run the binary anyhere that is compatible with the target os and architure
+
+
+NOTE => if you build code on mac then that binary wont run on ubuntu
+        Go's compiler targets the os and cpu architure you're currently on by defaule
+
+
+How to build cross platform binariers?
+    If you want to build a ninary on macOS that run on Ubuntu , yu can use crosspcompilation.
+    GO makes this eay by allowing you you specify the targe os and architure during the build process.
+    
+    GOOS=linux GOARC=amd64 go build -o myapp-linux
+
+    go tool dist list

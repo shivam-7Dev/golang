@@ -1,0 +1,115 @@
+The import keyword in GO is used to include packages into your Go source Identity FIle 
+so you can use the funtions, types, interfaces constant or variables to define in them.
+
+Basic syntax => import "fmt"
+    THis tell the GO compiler => Hey , i want to use the fmt package in this FIle
+
+
+Where do you use Import?
+    It is written just after the package declartion and before any fuction or variable definations.
+     package  main 
+     import "fmt"
+
+
+Single vs Multiple import:
+  
+  Single import => import "fmt"
+  Multiple Import -> import ("fmt", "math", "time")
+
+
+Import types:
+
+    1 Regular import => import "fmt"
+
+    2 Alia based/Named import =>import f "fmt"
+     not you must refer to it using the alis
+     f.println()
+     useful when:
+        two package have same name crypto/rand and math/rand
+        what shorter name
+    
+    3 Dot(.) import => import . "fmt"
+        THis imports all exported names directly into  your FIle
+        now you can do println("Hello")
+        Note: this is not recomded for porduction because it pollutes the global namespace and can cause confusion.
+
+    4 Blank Identifer _ import => import _ "net/http/pprof"
+        you are importing a package only for its side effects (eg init function)
+        you dont use anyting from it directly in you code.
+
+        Used in: DB drivers( _ "github.com/lib/pq")
+                 web debug tooling ( _ "net/http/pprof")
+
+
+How to handle improts?
+
+    1 path based.
+        Go identifies import based on their path like:
+            "fmt" -> form go stand library
+            "github.com/gin-gonic-/gin" -> form go modules or go net
+
+    2 Case sensitive
+        GO import paths are case sensitve, even on widows/mac wher eh filesystem inst. 
+        this is importat for cross platform development.
+
+
+GO moudles and imports
+
+    If you are using Go moudles(which you should) then import path works like 
+    
+    import "github.com/yourusername/youporject/utils"
+
+    internally go checks go.mod for module path, looks like $GOPATH/pkg/mod or project vendor/ floer
+
+Cyclic imports
+    GO does not allow circular imports and you can not do like this
+
+    //file A 
+    import "project/B"
+
+    //file B
+    import "project/A"
+
+
+Directory sturecture matter
+    GO imports map to folder path. of eg
+    myproject/
+    ├── main.go
+    ├── utils/
+    │   └── math.go
+
+    In main.go you can do
+        import "myproject/utils"
+
+
+Behind the Scenes 
+    1 compiler checks import path for:
+        Existence
+        Whether symbol you use for them are exporte (start with uppercase)
+
+    2 init() functions in importe package get calle before main().
+
+    3 During build:
+        standard lib packages are fetched form $GOROOT/src 
+        Others from module cache( $GOPATH/pkg/mod) or /vendor/
+
+
+Access control with imports
+    only indentifires starting with uppercase an exported and accessible via import
+    //In package math:
+    fun Add(){} //accessible
+    fun subtract(){} //not accessible
+
+
+Tools that helps with import
+    goimports: automatically adds/removes/cleans up unuse imports
+    gofmt: formats your code and import blocks
+    go mod tity: removes unused moducle dependencies
+
+
+
+Best practices:
+ 1 Group import into 3 blocks   => import ("fmt","two", "theee")
+ 2 avoid do imports unless in test file 
+ 3 use aliases to resolve conflics or shorten names
+ 4 Keep import clean with goimports or you IDE

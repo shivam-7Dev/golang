@@ -1,0 +1,246 @@
+In go data types define the kind of value a variable can store/
+Every variable must have a type,and go is statically typed,
+which means the type is checked at compile time.
+
+
+Categories of Data types in Go 
+    1. Basic type
+        Numeric types(int, float, complex)
+        Boolean
+        String
+    2. Aggregate types
+        Array
+        struct
+    3. Referce types
+        pointer
+        slice
+        Map
+        Funtion
+        Channel
+    4.Interfact type
+        interface{}
+        custom interface
+
+
+1.Numeric types
+   
+   a. Integers
+ 
+            type           size                                      signed?             Range
+
+            int,uint       platform depended(32 or 64 bit)           yes/no               platform-specific
+            int8            8bits                                      yes                 -128/127
+            uint8           8bits                                     no                  0 to 255
+            int16           16 bits                                    yes                -32,767 to 32,767
+            uint16          16 bits                                    no                 0 to 65,535
+            int32            32 bit                                   yes                -2B to 2B (rune is alia)
+            uint32           32 bits                                    no                  0 to 4B
+            int64            64 bits                                   yes                   -9 quintillion to 9 quintillion
+            uint 62          84 bits                                   no                  0 to 18 quintillion
+
+
+          NOTE: use int unless you have a specific reason
+
+    b.Floating pointe
+
+        type                 size             precision
+
+        float32              32 bits          ~ 6 decimal degits
+
+        float 64              64 bits         ~ 15 decimal digits
+     
+        var  f  float32=3.14
+        vard d  float64= 3.1415926535
+
+
+    c. Complex Number
+
+       used for scientic compuations
+       var c1 complex64= 1 +2i
+       var c2 complex128= complex(3,4)
+
+
+2. Boolean types
+
+    only two values: true or false
+    
+    var isLoaggedIn bool =true
+    var is18 bool = false
+
+    Note=> default value is false
+           used in conditions, comparisons, etc
+
+
+3. String types => Immutable sequence of bytes (UTF-8 encoded)
+
+    var name string= "Shivam"
+
+    fmt.pritln(name[0]) // print 83 (byte for S)
+
+    Note=> strings are read only
+            use backticks for raw string
+
+
+            str :=` this is a multiline string`
+
+
+
+4. Array type =>fixed-size collection of elements of the same type
+
+    var arr [3]int= [3]int{1,2,3}
+
+    Note=>  array are zero-indexed
+            size if the part of the type ([3]int not equal to [4]int)
+            copy by value(not referece)
+
+
+
+
+5.Slice type => Dynamic-size, flexible view over an array
+
+    s :=[]int{1,2,3}
+    s.append(s,4)
+ 
+    Note => slice is more powerful that arrays
+            Backed by an underlying array
+            has len() and cap()
+
+
+6.Map type => unordered collection of key-value pair
+
+    map := map[string]int{"apple":5,"banana":3}
+
+    m["orage"]=7
+
+    Note=> key must be comparable types (no slice or maps)
+            Accessing a non-existent key gives zero value
+
+
+
+
+7 struct types => collection of fields. Like classes without methods
+
+    type Person stuct {
+        Name string
+        Age int
+    }
+    shivam := Person{Name:"shivam", Age:27}
+
+    used for modellling data
+    supports embeddig (inheritace like behaviour)
+
+
+
+
+8 Pointer type => has the memory address of the value
+
+    var x int=10
+    var p *int=&x
+
+    *p=20  //updates x
+
+    Note=>  use * to dereference 
+            use & to get address
+
+
+
+
+9 Function type => Functions are first class citizen
+
+
+    funtion add(a int, b int) int {
+        return a + b
+    }
+
+    var op func(int,int) int= add
+
+    note: funtion can be passes as arguments
+           funtion can return funtions too
+
+
+
+10. channel type  => used for communication between goroutines
+
+    ch := make(chan int)
+
+    go func(){
+        ch <-42
+    }
+
+    fmt.println(<-ch)
+
+    Note: channel are synchronous by default
+          can be buffered with make(chan int,2)
+
+
+
+
+
+11. Interface type 
+
+    a. Empty Interface  interface{}
+
+        this can hold any types
+
+        var anything interface{}= "hello"
+
+        similar to any or Object in other language
+        use type assertionto extract the actual value
+
+
+    b. custiom interface => defines methods sets
+
+        type shape interface {
+            Area() float64
+        }
+
+        Any type that implements all methods of an interface is implictly that interface
+
+
+12. Rune and byte
+
+    rune - alias for int32 represent the unicode character
+    var r rune = '✓'
+    fmt.Println(r) // 10003
+
+
+    byte- alias for uint8, used for raw data
+
+    var b byte= 'A'
+
+
+13. Type alias
+   
+    type Age int 
+
+    var a Age =30
+
+
+#. Default Zero values
+
+    Type                       Default
+
+    int                         0
+    float                       0.0
+    bool                        false
+    string                      ""
+    pointers                     nil
+    map/slice                   nil
+
+
+
+#. Type inference
+
+    Go and automatically infer types using :=
+
+    age := 27   //int
+    name := "ram"    //string
+
+
+# Best practices:
+
+    perfer int, float unless you have a reason
+    Use interface {} sparingly
+    use slice over array in most cases 
+    always check ok when accession maps
+    use pointer to avoid copying large structs.
