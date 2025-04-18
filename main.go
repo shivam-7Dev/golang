@@ -7,6 +7,7 @@ import (
 )
 
 func main() {
+	Test() //Directly call the Test funtion from index.go
 	fmt.Println("this is main file")
 	basic.PrintHello() // Call the exported PrintHello function
 	basic.Variable()

@@ -1,3 +1,5 @@
+https://www.youtube.com/watch?v=mC0HLzUWnQg
+
 In Go, a directory represents a single package,
 and all files in that directory must belong to that same package.
 This design choice helps maintain clean organization and predictable import behavior.
@@ -7,3 +9,44 @@ Summary:
     Each directory = one package
     All files in a directory must declare the same package name
     Move files to different directories if they need to be in different packages
+
+
+
+Note=> In Go, file names do not matter for import or usage.
+        what really matters is package declaration at the top of each file
+
+        GO thinks in term of package and not filnames
+
+        // file: math_utils.go
+        package mathlib
+
+        func Add(a, b int) int {
+            return a + b
+        }
+
+
+        // file: subtraction.go
+        package mathlib
+
+        func Sub(a, b int) int {
+            return a - b
+        }
+
+        Even though these are different files,
+        since both are in the same package mathlib,
+        you can import just the package like:
+
+        import "your-module-name/mathlib"
+
+        mathlib.Add(1, 2)
+        mathlib.Sub(5, 3)
+
+
+✅ Rules Summary:
+
+✅ Rule	            📄 Description
+Package Name	      Must be declared at the top of the file.
+File Name	         Can be anything. It’s just for organization.
+Same Package	     All files in the same folder usually belong to the same package.
+Folder = Package	  In Go, folder name becomes the import path (used with go.mod).
+ 
