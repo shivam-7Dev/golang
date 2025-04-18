@@ -1,0 +1,9 @@
+In Go, a directory represents a single package,
+and all files in that directory must belong to that same package.
+This design choice helps maintain clean organization and predictable import behavior.
+
+
+Summary:
+    Each directory = one package
+    All files in a directory must declare the same package name
+    Move files to different directories if they need to be in different packages
