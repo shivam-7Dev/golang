@@ -1,0 +1,56 @@
+✅ What is an Array?
+Arrays are fixed-length, contiguous blocks of memory that store elements of the same type. 
+The size is part of the type definition.
+
+An array in Go is a fixed-size, indexed collection of elements of the same type.
+
+
+✅ Array Declaration
+
+    var arr [3]int              // declared with default values (0)
+    arr := [3]int{1, 2, 3}      // declared and initialized
+    arr := [...]int{1, 2, 3, 4} // use `...` to infer size
+    
+✅ Accessing and Modifying Elements
+    
+    arr[0] = 10
+    fmt.Println(arr[0]) // prints 10
+
+✅ Iterating over an Array
+
+    for i := 0; i < len(arr); i++ {
+        fmt.Println(arr[i])
+    }
+
+    // OR using range
+    for index, value := range arr {
+        fmt.Println(index, value)
+    }
+
+
+✅ Array is a Value Type
+
+Arrays are copied when assigned to a new variable or passed to functions.
+
+    a := [3]int{1, 2, 3}
+    b := a
+    b[0] = 100
+    fmt.Println(a) // [1 2 3]
+    fmt.Println(b) // [100 2 3]
+
+    Gotcha: If you want shared behavior, use pointers or slices.
+
+
+✅ Multi-dimensional Arrays
+
+    var matrix [2][3]int // 2 rows, 3 columns
+    matrix[0][1] = 5
+    fmt.Println(matrix) // [[0 5 0] [0 0 0]]
+
+
+⚠️ Gotchas with Arrays
+    Fixed size — can't grow or shrink.
+
+    Copied on assignment — use slices or pointers if you want shared behavior.
+
+    Not commonly used directly — Go devs usually prefer slices.

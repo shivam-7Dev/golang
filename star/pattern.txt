@@ -1,0 +1,40 @@
+
+1 solid pattern
+
+    *****
+    *****
+    *****
+    *****
+    *****
+
+2 Right angle triangle
+
+    *
+    **
+    ***
+    ****
+    *****
+
+
+
+3 Inverted Right-Angled Triangle
+
+    *****
+    ****
+    ***
+    **
+    *
+
+
+4. right aligned triangle
+
+
+    *
+   **
+  ***
+ ****
+*****
+
+    
+
+

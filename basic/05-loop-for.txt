@@ -1,0 +1,110 @@
+for loop in go is very unique an dverstile and its the only loop construct
+
+The for loop in go:
+
+General syntax:
+
+    for init:cond;post {
+        //body
+    }
+
+    this is simar to c/js style loop
+    
+    for i:=0;i<5; i++{
+        fmt.Println(i)
+    }
+
+
+Main form of for in GO:
+
+    1 classical for loop
+
+        for i:=0; i<10;i++{
+            fmt.Println(k)
+        }
+
+        init runs once at the start
+        condition is checked before every interation
+        post runs after each interation
+    
+    2. while like loop:
+
+
+        If you omit and post, you get a while loop
+
+        i:=0
+        for i<5{
+            fmt.Println(i)
+            i++
+        }
+
+    3, infinite loop:
+
+         if you ommit everyting you get inifinte loop
+         for {
+            // this is infiinite loop
+         }
+         use break to stop and return to exit early
+
+
+
+
+ specail: for ... range loop =>rgreat for collections (slice, map, string, etc.).
+
+    used for interating over array, slice, map, string and channels
+
+    1. Looping over slice
+
+        nums:=[]int{1,2,4}
+
+        for index,value:=range nums{
+            fmt.Println(index,value)
+        }
+
+        if you dont need index or value thgen use _:
+
+        for_,value:range nums{
+            fmt.Println(value)
+        }
+
+    2. Loopin over a map
+
+        m:=map[jstirng]int{"a":1,"b":2}
+
+        for key,value:=range m {
+            fmt:Println(key,value)
+        }
+
+    3. Looping over a sting(UTF-8 safe):
+
+     for i,ch:=range "hello" {
+        fmt.Printlm("index : %d, Rune: %c \n", i,ch)
+     }
+
+
+break,continue,goto
+
+    break: exit the loop
+    continue:skip to next interation
+    goto:jumps to a label(rarely used)
+
+    for i := 0; i < 10; i++ {
+        if i == 5 {
+            continue
+        }
+        if i == 8 {
+            break
+        }
+        fmt.Println(i)
+    }
+
+✅ Summary
+
+    for is the only loop in Go, but it can act like for, while, and infinite loops.
+
+    range is great for collections (slice, map, string, etc.).
+
+    Go avoids extra loop types for simplicity and readability.
+
+    Use break, continue, and goto (rare) for control flow.
+

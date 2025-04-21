@@ -1,0 +1,88 @@
+The switch Statement
+
+Go's switch is more powerful than in many other languages:
+
+
+
+    switch expression {
+    case value1:
+        // code
+    case value2:
+        // code
+    default:
+        // code
+    }
+
+    switch day {
+    case "Mon":
+        fmt.Println("Monday")
+    case "Tue":
+        fmt.Println("Tuesday")
+    default:
+        fmt.Println("Other day")
+    }
+
+
+Switch Statement Peculiarities
+
+    a. No Fallthrough by Default:
+
+    switch 2 {
+    case 1:
+        fmt.Println("1")
+    case 2:
+        fmt.Println("2")  // Only this executes
+    case 3:
+        fmt.Println("3")
+    }
+
+
+    b. Explicit Fallthrough:
+
+    switch 2 {
+    case 1:
+        fmt.Println("1")
+    case 2:
+        fmt.Println("2")
+        fallthrough  // Explicitly continue
+    case 3:
+        fmt.Println("3")  // Also executes
+    }
+
+
+    c. Expressionless Switch:
+
+    switch {
+    case x < 0:
+        fmt.Println("Negative")
+    case x == 0:
+        fmt.Println("Zero")
+    default:
+        fmt.Println("Positive")
+    }
+
+    d. Multiple Values:
+
+    switch char {
+    case ' ', '\t', '\n':
+        fmt.Println("Whitespace")
+    }
+
+
+ Type Switch =>Special form for type assertions:
+
+
+    var i interface{} = "hello"
+
+    switch v := i.(type) {
+    case int:
+        fmt.Printf("Integer: %v\n", v)
+    case string:
+        fmt.Printf("String: %v\n", v)  // This executes
+    default:
+        fmt.Printf("Unknown type\n")
+    }
+
+
+
+

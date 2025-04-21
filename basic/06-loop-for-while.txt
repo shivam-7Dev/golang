@@ -1,0 +1,34 @@
+No, Go does not have a keyword called while.
+
+But! You can write a while loop using the for keyword — 
+because in Go, for is the only loop construct, 
+and it’s versatile enough to cover what a while loop does in other languages.
+
+Go while Loop Style
+    i := 0
+    for i < 5 {
+        fmt.Println(i)
+        i++
+    }
+    This behaves just like a traditional while loop in Python, JavaScript, or C.
+
+
+🔁 Infinite Loop (like while(true))
+
+    for {
+        fmt.Println("Looping forever...")
+        // break or return to avoid real infinite loop
+        break
+    }
+
+
+
+✅ Summary
+    Go doesn’t have while, but you can write it using for condition.
+
+    It behaves the same as a while loop from other languages.
+
+    For infinite loops: for { ... }
+
+    Exit early with break, skip with continue.
+

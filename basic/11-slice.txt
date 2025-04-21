@@ -1,0 +1,54 @@
+✅ What is a Slice?
+A slice is a flexible, dynamically-sized view into an array. Think of it as a "window" over an array.
+
+ numbers := []int{1, 2, 3, 4}
+
+Under the hood, a slice has:
+
+        A pointer to an array
+
+        A length
+
+        A capacity
+
+
+✅ Declaring and Initializing
+
+    var s []int              // nil slice
+    s := []int{1, 2, 3}      // initialized
+    s := make([]int, 3)      // [0 0 0], len = 3, cap = 3
+    s := make([]int, 3, 5)   // len = 3, cap = 5
+
+
+✅ Slicing an Array or Slice
+
+    a := [5]int{0, 1, 2, 3, 4}
+    s := a[1:4] // slice from index 1 to 3 → [1 2 3]
+
+    Includes start, excludes end ([start:end))
+
+
+✅ Length and Capacity
+
+    s := []int{10, 20, 30, 40}
+    fmt.Println(len(s)) // 4
+    fmt.Println(cap(s)) // 4 (same as array capacity)
+
+✅ Append Elements
+
+    s := []int{1, 2}
+    s = append(s, 3, 4) // [1 2 3 4]
+
+✅ Copying Slices
+
+    s1 := []int{1, 2, 3}
+    s2 := make([]int, len(s1))
+    copy(s2, s1)
+
+✅ Nil vs Empty Slice
+
+    var a []int            // nil slice → len = 0, cap = 0
+    b := []int{}           // empty slice → len = 0, cap = 0
+    fmt.Println(a == nil)  // true
+    fmt.Println(b == nil)  // false
+

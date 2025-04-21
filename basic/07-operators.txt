@@ -1,0 +1,177 @@
+🧮 Categories of Operators in Go
+
+Arithmetic Operators
+
+Relational (Comparison) Operators
+
+Logical Operators
+
+Bitwise Operators
+
+Assignment Operators
+
+Unary Operators
+
+Miscellaneous
+
+
+
+1. 🔢 Arithmetic Operators
+
+Used for performing mathematical calculations.
+
+    Operator	Description	            Example
+    +	        Addition	            a + b
+    -	        Subtraction	            a - b
+    *	        Multiplication	        a * b
+    /	        Division	             / b
+    %	        Modulus (remainder)	    a % b
+    ++	        Increment (postfix only)	a++
+    --	        Decrement (postfix only)	a--
+
+    Important Notes:
+        Go doesn't have prefix increment/decrement (++a or --a)
+
+        Division of integers results in an integer (truncated)
+
+        % only works with integers
+
+
+2. 📏 Relational (Comparison) Operators
+
+Used for comparisons, returning boolean values (true or false).
+
+    Operator	    Description	                Example
+    ==	            Equal to	                a == b
+    !=	            Not equal to	            a != b
+    >	            Greater than	            a > b
+    <	            Less than	                a < b
+    >=	            Greater than or equal to	a >= b
+    <=	            Less than or equal to	    a <= b
+
+
+3. 🧠 Logical Operators
+
+Used for boolean logic, especially in if conditions.
+
+    Operator	    Description	            Example
+    &&	            Logical AND	            a && b
+    ||			    Logical OR	            a||b
+    !	            Logical NOT	            !a
+
+    Short-circuiting behavior:
+    
+        && stops evaluating if the first operand is false
+
+        || stops evaluating if the first operand is true
+
+
+4. ⚙️ Bitwise Operators
+
+Work on binary representation of integers.
+
+    Operator	Description	        Example
+    &	        Bitwise AND	        a & b
+    |	        Bitwise OR	        a|b
+    ^	        Bitwise XOR	        a ^ b
+    &^	        Bit clear (AND NOT)	a &^ b
+    <<	        Left shift	        a << n
+    >>	        Right shift	         >> n
+
+    🧠 Bitwise operators are super useful for:
+
+        Permissions
+
+        Flags
+
+        Hardware/IoT programming
+
+
+
+
+5. 🎒 Assignment Operators
+
+
+Used to assign values to variables.
+
+    Operator	Description	        Example	            Equivalent to
+    =	        Simple assignment	a = b	                -
+    +=	        Add and assign	    a += b	            a = a + b
+    -=	        Subtract and assign	a -= b	            a = a - b
+    *=	        Multiply and assign	a *= b	            a = a * b
+    /=	        Divide and assign	a /= b	            a = a / b
+
+
+
+✅ Address-of (&) and Dereference (*)
+
+Used for working with memory addresses and pointers.
+
+        Operator	Description	            Example
+        &	        Address of operator     &a
+        *	        Pointer dereference	    *ptr
+
+
+7. Channel Operators
+
+Used for channel operations in concurrent programming.
+
+    Operator	    Description	            Example
+    <-	            Send/receive operator	ch <- v or v := <-ch
+
+
+
+
+8. Overflow and underflow in clang
+
+
+
+Overflow:Overflow occurs when a calculation produces a result that is larger than the maximum value that can be stored in the data type.
+
+How Overflow happens?
+    when you perform operation (addtion,multiplication) that exceed the maximum
+    value a type can hold
+    The value wraps around to minimum value of the type(for unsigned interers) 
+    or becomes negative for signed integers
+
+
+    var u uint8 = 255  // Max value for uint8
+    u++
+    fmt.Println(u)  // 0 (wraps around)
+
+
+
+    var i int8 = 127   // Max positive value for int8
+    i++
+    fmt.Println(i)  // -128 (wraps to minimum)
+
+
+
+
+underflow: underflow occurs when a claculationproduce a result that is smaller
+than he minumum value that can be strored in the data type
+
+How it happens:
+     when you perform a operation that go belwo the minumum vale a type can hold
+     similar to Overflow the value wraps around the max value
+
+
+        var u uint8 = 0
+        u--
+        fmt.Println(u)  // 255 (wraps to max)
+
+
+        var i int8 = -128  // Min value for int8
+        i--
+        fmt.Println(i)  // 127 (wraps to max)
+
+
+Consequences of Overflow/Underflow
+
+    Silent Errors: Most languages (including Go) don't throw exceptions for overflow/underflow
+
+    Security Vulnerabilities: Can lead to buffer overflows, integer exploits
+
+    Incorrect Calculations: Results become mathematically wrong
+
+    Program Logic Errors: Can cause unexpected behavior in control flow

@@ -1,0 +1,73 @@
+Control flow in GO languages
+
+Conditionals are fundamental programming constructs that allow you to control 
+the flow of execution based on boolean conditions
+
+
+
+Types of Conditionals in Go
+
+
+1. The if Statement
+
+
+    if condition {
+        // code to execute if condition is true
+    }
+
+
+2. The if-else Statement
+
+    if condition {
+        // code if true
+    } else {
+        // code if false
+    }
+
+
+
+    if score >= 60 {
+    fmt.Println("Passed")
+    } else {
+        fmt.Println("Failed")
+    }
+
+3. The if-else if-else Statement
+
+
+    if condition1 {
+    // code if condition1 is true
+    } else if condition2 {
+        // code if condition2 is true
+    } else {
+        // code if all conditions are false
+    }
+
+
+
+    if grade >= 90 {
+        fmt.Println("A")
+    } else if grade >= 80 {
+        fmt.Println("B")
+    } else if grade >= 70 {
+        fmt.Println("C")
+    } else {
+        fmt.Println("F")
+    }
+
+
+
+
+Special Features and Gotchas
+
+1. Initialization Statement in if=>Go allows a short initialization statement before the condition:
+
+        if x := computeValue(); x > 10 {
+            fmt.Println(x)
+        } else {
+            fmt.Println("Value too small")
+        }
+        // x is not accessible here
+        Gotcha: The variable's scope is limited to the if block (including else blocks).
+
+
