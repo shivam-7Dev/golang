@@ -1,0 +1,101 @@
+Variadic Functions
+
+Functions that can accept a variable number of arguments:
+
+        func sum(numbers ...int) int {
+            total := 0
+            for _, num := range numbers {
+                total += num
+            }
+            return total
+        }
+
+        // Usage
+        result := sum(1, 2, 3, 4)  // returns 10
+
+    Gotcha: The variadic parameter must be the last parameter in the function signature.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

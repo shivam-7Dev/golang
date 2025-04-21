@@ -1,0 +1,20 @@
+Panic
+
+panic stops normal execution and begins panicking. recover can stop the panic.
+
+func safeDivide(a, b int) (result int, err error) {
+    defer func() {
+        if r := recover(); r != nil {
+            err = fmt.Errorf("runtime error: %v", r)
+        }
+    }()
+    
+    if b == 0 {
+        panic("division by zero")
+    }
+    return a / b, nil
+}
+
+
+Best Practice: Use panic and recover sparingly. They're not meant for regular error handling.
+

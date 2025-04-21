@@ -1,0 +1,39 @@
+Defer
+
+defer schedules a function call to run just before the surrounding function returns.
+
+    func readFile(filename string) (string, error) {
+        file, err := os.Open(filename)
+        if err != nil {
+            return "", err
+        }
+        defer file.Close()  // Will be executed when readFile returns
+        
+        content, err := io.ReadAll(file)
+        if err != nil {
+            return "", err
+        }
+        return string(content), nil
+    }
+
+
+
+Gotcha: Deferred functions execute in LIFO order (last deferred, first executed).
+Pitfall: Arguments to deferred functions are evaluated immediately:
+
+
+
+func main() {
+    i := 1
+    defer fmt.Println("Deferred:", i)  // Will print 1, not 2
+    i = 2
+    fmt.Println("Normal:", i)  // Prints 2
+}
+
+
+
+
+
+
+
+
