@@ -1,0 +1,28 @@
+
+Note: In go arithmetic operatios works with numeric types like int,float 
+
+Operator	Name	             Example (a = 10, b = 3)	 Result
++	        Addition	         a + b	                     13
+-	        Subtraction	         a - b	                        7
+*	        Multiplication	     a * b	                        30
+/	        Division	         a / b	                    3 (for int) or 3.333 (for float64)
+%	        Modulus(Remainder)	 a % b	                            1
+
+
+
+
+
+
+
+
+✅ Summary
+
+    Use +, -, *, /, % for basic math
+
+    Integer division truncates result
+
+    Explicit type conversion is necessary for mixed types
+
+    Use +=, -=, etc., for compound assignment
+
+    x++ and x-- are statements, not expressions

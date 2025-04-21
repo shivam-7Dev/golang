@@ -1,0 +1,32 @@
+Go in language that emphasize clarity, simplicity and consitency
+Naming convetion affect
+    readabilty, package organistaion export rule
+
+1 PascaleCase vs camelCase- visibiltiy(Exported vs Unexported)
+
+    in go, the first letter of an identifier determine its visibiltiy across packages:
+
+    case          exampel            access        used  for 
+
+    PascaleCase   MyFunction         Exported      Public fuction,struct,etc      
+
+    camelCase     myVariable          Unexported    private/internal stuff
+
+
+    exported: can be accessed from ohter packages
+    Unexported : can be accessed only within the smae package
+
+
+    //example.go
+
+    package example
+
+    var Exorted =16 //Accessible from other packages
+    var internal =20 //only inside example package
+
+
+Package Names
+
+    shoud be short, lowercase, no underscore and meaningful
+    avoid plural
+    use the fuctionlity the package offers

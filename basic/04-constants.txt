@@ -1,0 +1,29 @@
+A constant (const) is a value that cannot be changed during the execution of the program. 
+It must be known at compile-time.
+
+    const pi = 3.14159
+
+
+Type can be inferred or explicit:
+    const age = 25           // inferred as untyped int
+    const name string = "Shivam"
+
+
+Rules for constant
+
+    1 must be assigned a  value at declaration
+      you cannot declare a constat without assiging a value
+        const x   //invalied becasue there is not assignment
+
+    2 cannot use runtime value
+
+        const size = len("hello") // ❌ Invalid
+        len() is only valid in array length definitions, not for constants.
+
+
+GOTChas:
+
+    1.No runtime computation
+
+        var userInput = 5
+        const result = userInput + 1  // ❌ ERROR: userInput is not a constant

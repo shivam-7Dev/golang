@@ -1,0 +1,125 @@
+what is variable in go?
+    A varialble is a named storage that holds a value.
+    In go, every  variable has 
+        a name
+        a type
+        and optionally a value
+    Go is statically typed languag which means the type of variable is know at the compile time
+
+
+ways to declare variable
+
+    1. using var keyword(explict type)
+        var a int 
+        a=10
+
+    2. var with assignment
+        var b int=20
+    
+    3 Type inference(no need to write the type)
+        var c=30 // go inferes c  as int
+
+    4. short hand declaratio using :=(only inside functions)
+
+        d:=40
+
+        Note: you cant use := outside function(like package level declartion)
+
+
+variable types and type inference
+
+    GO supports basic types
+
+    1 numeric type => int, int8, int16, int32, int64
+                      uint, uint8(byte), uint16, uint32, uint64
+                      float32,float64
+                      complex64 complex128
+
+    2 boolean types => true and flase
+
+    3  string type
+
+
+    Derived types/composite types
+
+    1 Array: var a [3]int
+    2 slice: b:=[]int{1,2,3}
+    3 map m:=map[string]int{"a":1}
+    4 struct, interface, pointer, channel, functions
+
+
+Scope of variable
+
+    1 package scope(Global varialbe):
+        variables declared outside any function are accessible throughout the file
+
+        var global=100
+
+    2. Function scope(Local variable)
+
+        Variables declared inside a funtion,are only accessile there
+
+        fucn example(){
+            var local=10
+        }
+
+    3. Block scope:
+
+        variables declared within a block, like inside loop, if,etc 
+
+        for i:=0;i<5;i++{
+            fmt.println(i)
+        }
+
+
+
+constant in go:
+
+    const pi=3.14
+    const name string="shivam"
+
+
+    Rules:
+
+        1 Must be assigned at compile time
+        2 cnat use function to assign a constant
+        3 cant be reassigned
+        4 can be typed of untyped
+            const a =5 //untyped
+            const b int=10 //untyped
+
+
+Gotchas and best practices:
+
+    1 := only works inside a function
+        a:= 10  // outside eh funciton it will cause error
+
+    2 variables declared but not used= compilation error
+        var x int // error: declared and not used
+
+        _=x  // this is the fix of above
+    
+    3 variables with the same name can shadow outer ones
+
+
+        var x=5
+
+        func foo(){
+            x := 10 // shadow outer x
+            fmt.Println(x) // print 10
+        }
+
+
+
+Shadowing in go
+
+    shadowing means
+     declaring a new varialbe with the same name in the narrower scope
+
+
+    var name= "shivam"
+
+    func test(){
+        name:="go"
+        fmt.Println(name) // print go and not shivam
+    }
