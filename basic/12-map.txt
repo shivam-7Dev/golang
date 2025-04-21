@@ -1,0 +1,81 @@
+maps provide efficient key-value storage and retrieval. 
+
+What is a Map?
+    A map is an unordered collection of key-value pairs where:
+
+    Keys are unique
+
+    Both keys and values can be of any type (as long as the key type is comparable)
+
+    Implemented as a hash table under the hood
+
+
+Declaration and Initialization
+
+    // Declaration styles
+    var m1 map[string]int          // Zero value (nil map)
+    m2 := make(map[string]int)     // Empty initialized map
+    m3 := map[string]int{          // Map literal
+        "Alice": 25,
+        "Bob":   30,
+    }
+
+Key Characteristics
+
+    Reference Type: Maps are reference types (like slices and channels)
+
+    Dynamic Growth: Automatically resize as needed
+
+    Unordered: Iteration order is random and varies between executions
+
+    Fast Lookups: O(1) average time complexity for operations
+
+
+Core Operations
+
+
+    Adding/Updating Elements:
+
+        m := make(map[string]int)
+        m["Alice"] = 25      // Add new key-value pair
+        m["Alice"] = 26      // Update existing key
+
+
+    Accessing Elements:
+
+        age := m["Alice"]    // Access value
+        age, ok := m["Bob"]  // Check existence (ok is bool)
+
+    Deleting Elements:
+        delete(m, "Alice")   // Remove key-value pair
+
+    Checking Existence
+
+        if _, exists := m["Bob"]; exists {
+            // Key exists
+        }
+
+    Iteration:
+
+
+        for key, value := range m {
+            fmt.Println(key, value)
+        }
+
+Memory Efficiency
+    Maps have some memory overhead compared to slices
+
+    Each map maintains:
+
+        Hash table buckets
+
+        Overflow pointers
+
+        Key/value storage
+
+
+
+
+
+
+

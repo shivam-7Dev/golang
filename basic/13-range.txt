@@ -1,0 +1,107 @@
+🔁 What is range in Go?
+
+The range keyword is used in a for loop to iterate over elements in:
+
+    arrays
+    slices
+    maps
+    strings
+    channels
+
+It gives you a clean and readable way to loop through collections.
+
+🧪 Syntax:
+
+    for index, value := range collection {
+        // use index and value
+    }
+
+    index: the current index or key
+    value: the element at that index (or value for maps)
+
+
+🧾 Examples
+
+1. Iterating over a Slice
+
+        nums := []int{10, 20, 30}
+
+        for i, v := range nums {
+            fmt.Println("Index:", i, "Value:", v)
+        }
+2. Iterating over an Array
+
+        arr := [3]string{"apple", "banana", "cherry"}
+
+        for i, v := range arr {
+            fmt.Println(i, v)
+        }
+3. Iterating over a Map
+
+        m := map[string]int{"a": 1, "b": 2}
+
+        for key, value := range m {
+            fmt.Println(key, value)
+        }
+
+        🧠 Order is not guaranteed in maps — so don't assume it's sorted.
+
+
+4. Iterating over a String (Unicode-aware)
+
+        s := "hello"
+
+        for i, r := range s {
+            fmt.Printf("Index: %d, Rune: %c\n", i, r)
+        }
+
+        ✨ Handles UTF-8 properly — r is of type rune (int32).
+
+
+5. Ignoring index or value
+
+        for _, val := range nums {
+            fmt.Println(val)
+        }
+
+        for i := range nums {
+            fmt.Println("Index is", i)
+        }
+
+
+6. Using range with channels (advanced)
+
+
+    ch := make(chan int)
+
+    go func() {
+        for i := 0; i < 3; i++ {
+            ch <- i
+        }
+        close(ch)
+    }()
+
+    for val := range ch {
+        fmt.Println(val)
+    }
+    ⚠️ range waits until the channel is closed.
+     If you don’t close it, the loop will hang forever.
+
+
+
+🛑 Gotchas and Tips:
+
+    Map order is not guaranteed
+
+    Don't rely on the order of range in maps — it's randomized for security.
+
+    Modifying the collection while ranging over it can lead to bugs. 
+    Prefer creating a copy or be cautious.
+
+    Strings use Unicode runes, not bytes — good for internationalization,
+    but be aware if you want to loop over individual bytes instead 
+    (then use []byte(str) instead of range).
+
+    When looping over slices, if you append to the slice inside the loop, be cautious
+    — it may lead to unexpected results due to reallocation.
+
