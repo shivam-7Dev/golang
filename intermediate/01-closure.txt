@@ -1,0 +1,225 @@
+What is a Closure?(Function + Environment)
+
+A closure is a function value that references variables from outside its body. 
+he function may access and assign to these variables; in this sense, the function is "bound" to these variables.
+
+A closure "closes over" its outer variables,
+ preserving access to them even when the outer function has returned.
+
+Key Characteristics:
+
+    Function + Environment: A closure is a function plus its enclosing environment 
+                            (the variables it can access)
+    Persistent State: Variables in the closure's environment persist between calls
+
+    Lexical Scoping: The function can access variables that were in scope when it was declared
+
+
+🧠 Key Concepts
+
+    A function literal (aka anonymous function) is declared inline.
+    That function can access and modify variables outside its scope.
+    These outer variables live on, not being garbage-collected, as long as the closure uses them.
+
+
+How Closures Work in Go:
+
+    func main() {
+        x := 0
+        increment := func() int {
+            x++
+            return x
+        }
+        
+        fmt.Println(increment()) // 1
+        fmt.Println(increment()) // 2
+        fmt.Println(increment()) // 3
+    }
+
+    Here, increment is a closure that captures the variable x.
+    Each call to increment modifies and returns the incremented value of x.
+
+
+
+Another exmaple:
+    
+    func outer() func() int {
+        x := 0
+        return func() int {
+            x++
+            return x
+        }
+    }
+
+    Here:
+    👉 Each call to outer() returns a new closure with its own independent state.
+        x is declared in outer.
+        The returned function (closure) remembers x, and keeps modifying it.
+
+
+📦 Full Example
+        package main
+        import "fmt"
+
+        func counter() func() int {
+            count := 0
+            return func() int {
+                count++
+                return count
+            }
+        }
+
+        func main() {
+            c := counter()
+            fmt.Println(c()) // 1
+            fmt.Println(c()) // 2
+            fmt.Println(c()) // 3
+
+            d := counter()
+            fmt.Println(d()) // 1 (fresh instance)
+        }
+        👉 Each call to counter() returns a new closure with its own independent state.
+
+
+
+        MY defination: when parent funtion returns a clild funcition or inner funciton 
+                        and that inner function is making user of varaibles declared in parents
+                        the the returned function is called closure (fuction+surrounding varaiable)
+                        and that  clsoure fuction have access to the parents varaible
+
+
+Under the Hood: Implementation Details
+When you create a closure in Go:
+
+    Heap Allocation: The compiler detects that a variable is captured by a closure 
+                        and allocates it on the heap rather than the stack
+
+    Pointer Retention: The closure maintains a reference (pointer) to the captured variables
+
+    Extended Lifetime: Captured variables live as long as any closure referencing them exists
+
+    This is different from regular function calls where local variables are typically stack-allocated 
+    and destroyed when the function returns.
+
+
+
+Benefits of Using Closures in Go
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
