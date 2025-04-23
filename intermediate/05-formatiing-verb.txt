@@ -1,0 +1,75 @@
+1. What Are Formatting Verbs?
+
+    Formatting verbs are special placeholder symbols used with Go's formatting functions 
+    (fmt.Printf, fmt.Sprintf, etc.) to control how values are displayed.
+    They:
+        Begin with %
+        Specify data type and display format
+        Support width, precision, padding, and alignment
+
+
+    Core Formatting Functions
+
+        Function	    Description
+
+        fmt.Printf()	Prints formatted text to os.Stdout
+        fmt.Sprintf()	Returns formatted string
+        fmt.Fprintf()	Writes to an io.Writer
+        fmt.Errorf()	Creates formatted error
+        log.Printf()	Logs formatted message
+
+2. Complete Verb Reference
+
+    General Syntax =>  %[flags][width][.precision]verb
+
+    General fomatting Verbs=> They can be used with any type
+
+        Verb	    Type	            Example Output
+
+        %v	        Default format	    {Alice 30} (struct) 
+                    Prints in default
+                    format
+
+        %#v	        Go-syntax format	main.Person{Name:"Alice"}
+        
+        %T	        Type	            string, []int
+
+        %%	        Literal percent	        %
+
+
+    String & Runes
+
+        Verb	        Behavior	        Example ("Go")
+
+        %s	            Raw string	        Go
+        %q	            Quoted string	    "Go"
+        %x	            Hex (bytes)	        476f
+        %X	            Hex (uppercase)	    476F
+        %U	            Unicode format	    U+0047 U+006F
+        %c	            Single rune	G       (for rune 'G')
+
+
+
+    Structs & Slices
+
+        type Person struct { Name string; Age int }
+        p := Person{"Alice", 30}
+
+        fmt.Printf("%v\n", p)   // {Alice 30}
+        fmt.Printf("%+v\n", p)  // {Name:Alice Age:30}
+        fmt.Printf("%#v\n", p)  // main.Person{Name:"Alice", Age:30}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

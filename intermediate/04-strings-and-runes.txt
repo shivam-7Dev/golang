@@ -1,0 +1,248 @@
+Strings:
+
+    A string in go is a read only slice of bytes ([]bytes)
+    It is immutable that is a string can not be modified after creation
+    string is encoded in utf8 by default(variable width encoding)
+
+    Internal Representation
+
+    type string struct {
+        data *byte  // Pointer to underlying bytes
+        len  int    // Length in bytes (not characters!)
+    }
+
+    data: points to a byte aray
+    len: number of bytes(not unicode chracters)
+
+
+    string declation:
+        
+        s1 := "hello"          // String literal
+        s2 := `raw\nstring`    // Raw string (no escape processing)
+        fmt.Println(s1, s2)    // hello raw\nstring
+
+    Key Properties 
+
+        Immutable
+            s := "hello"
+            s[0] = 'H' // Compile Error: cannot assign to s[0]
+
+
+
+        UTF-8 Encoded:
+            Each character can be 1 to 4 bytes.
+            Example: "世界" is 6 bytes (2 runes × 3 bytes each).
+
+        Indexing Returns Bytes:
+            s := "世界"
+            fmt.Println(s[0]) // 228 (first byte of '世')
+
+
+
+Runes in go:
+
+    A rune is an alias for int32 ( 4 bytes)
+    Represent  a unicode code point( a single chracter)
+    Uded to handle multi byte chracters correctly.
+
+    Rune declartion
+
+        r1 := 'A'         // rune (type int32)
+        r2 := '世'        // Unicode character
+        r3 := '\u4e16'    // Unicode escape (世)
+        fmt.Printf("%c %c %c\n", r1, r2, r3) // A 世 世
+
+    Converting Between Strings and Runes
+
+        s := "世界"
+        runes := []rune(s)  // Convert string to rune slice
+        fmt.Println(runes)  // [19990 30028] (Unicode code points)
+
+
+3. How Strings and Runes are Leveraged in Go
+
+
+    Benefits of Strings:
+        Efficient for ASCII (1 byte per character).
+        Memory Contiguous (good for caching).
+        Immutable (safe for concurrency).
+
+    Benefits of Runes
+
+        Correct Character Handling:
+            s := "世界"
+            fmt.Println(len(s))           // 6 (bytes)
+            fmt.Println(len([]rune(s)))   // 2 (characters)
+
+
+        Supports Full Unicode (emojis, CJK, etc.).
+
+        Easier String Manipulation:
+
+            s := "hello 世界"
+            for _, r := range s {         // Iterates by runes, not bytes
+                fmt.Printf("%c ", r)      // h e l l o   世 界
+            }
+
+
+Common Use Cases
+
+    String Iteration:
+
+        s := "hello 世界"
+        // By bytes (incorrect for multi-byte chars)
+        for i := 0; i < len(s); i++ {
+            fmt.Printf("%c ", s[i]) // h e l l o   � � � � � �
+        }
+        // By runes (correct)
+        for _, r := range s {
+            fmt.Printf("%c ", r)    // h e l l o   世 界
+        }
+
+    Substring Extraction:
+
+        s := "hello 世界"
+        // Wrong (byte-based)
+        fmt.Println(s[6:9]) // "世" but may break mid-character
+        // Correct (rune-based)
+        runes := []rune(s)
+        fmt.Println(string(runes[6:8])) // "世界"
+
+    String Manipulation:
+
+        // Reverse a string (rune-aware)
+        func reverse(s string) string {
+            runes := []rune(s)
+            for i, j := 0, len(runes)-1; i < j; i++, j-- {
+                runes[i], runes[j] = runes[j], runes[i]
+            }
+            return string(runes)
+        }
+        fmt.Println(reverse("世界 hello")) // "olleh 界世"
+
+
+4. Common Pitfalls & Best Practices
+
+
+    Pitfall 1: Treating Strings as Byte Arrays
+
+        s := "世界"
+        fmt.Println(len(s)) // 6 (bytes), not 2 (characters)
+        ✅ Fix: Use []rune for character count:
+
+
+
+    Pitfall 2: Slicing Strings Incorrectly
+
+        s := "hello 世界"
+        sub := s[6:9] // May cut a multi-byte rune in half!
+        fmt.Println(sub) // Possible garbage output
+
+        ✅ Fix: Convert to []rune first:
+
+        runes := []rune(s)
+        sub := string(runes[6:8]) // "世界"
+
+    Pitfall 3: Concatenating Strings in Loops (Inefficient)
+
+        var s string
+        for i := 0; i < 1000; i++ {
+            s += "a" // New allocation each time!
+        }
+
+
+        ✅ Fix: Use strings.Builder:
+
+        var sb strings.Builder
+        for i := 0; i < 1000; i++ {
+            sb.WriteString("a")
+        }
+        s := sb.String() // Single allocation
+
+    Pitfall 4: Assuming Strings are Null-Terminated
+
+        // Go strings are NOT null-terminated!
+        s := "hello\x00world" // Contains a null byte
+        fmt.Println(s)        // "hello world"
+
+        ✅ Fix: Use len(s) instead of C-style strlen.
+
+    Pitfall 5: Misusing range on Strings
+
+        s := "世界"
+        for i, r := range s { // i is byte index, not rune index!
+            fmt.Printf("%d: %c\n", i, r)
+        }
+        // Output:
+        // 0: 世
+        // 3: 界
+        ✅ Fix: Use []rune if you need character positions:
+
+
+
+        runes := []rune(s)
+        for i, r := range runes {
+            fmt.Printf("%d: %c\n", i, r)
+        }
+
+
+5. Performance Considerations
+
+
+    a) Strings vs. []byte
+
+        Use []byte when:
+            You need mutability.
+            Working with binary data.
+
+        Use string when:
+            You need immutability (e.g., map keys).
+            Working with text.
+
+
+    b) string to []byte Conversion
+
+        s := "hello"
+        b := []byte(s) // Allocates new memory!
+        s2 := string(b) // Another allocation!
+        Avoid in hot loops (allocates new memory each time).
+
+
+    c) strings.Builder for Efficient Concatenation
+
+        var sb strings.Builder
+        sb.WriteString("hello")
+        sb.WriteString(" 世界")
+        result := sb.String() // Minimal allocations
+
+    d) utf8 Package for Low-Level Operations
+
+
+        s := "世界"
+        fmt.Println(utf8.RuneCountInString(s)) // 2 (correct count)
+
+
+
+6. Best Practices
+
+    Use range for string iteration (handles runes correctly).
+    Prefer []rune for character manipulation.
+    Use strings.Builder for concatenation.
+    Avoid unnecessary string ↔ []byte conversions.
+    Use utf8 package for advanced Unicode operations.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

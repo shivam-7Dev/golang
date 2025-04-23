@@ -1,0 +1,106 @@
+Charater Set 
+
+    Character set is  a collection of characters and their correspondig numeric values(codepoints)
+
+    Ascii: A 7 bit character set that maps 128 characters( A=65, a=97)
+    Unicode: A universal charater set that maps over 1.1 million chracters, supporting almost
+             all languages and symbols
+
+
+
+    Code poits: A code point is the numeric value assigned to a character in a character set.
+                
+                For eg: A in ascii : code point =65
+                        
+                        😊 in Unicode: Code point U+1F60A
+
+
+
+Character encoiding:
+
+    character encoding specifies how code points( ascii value or unicode) are represented as  byters.
+    common encoding includes:
+        Ascii: use 7 bit to represent character  (e.g., A = 01000001).
+        UTF-8: A variable-length encoding for uncode. using 1 to 4 bytets percharacter.
+        UTF-16: A variable-lenght encoding for unicode, using 2 bytes or 4 bytes per charter.
+        UTF-32: A fixed-lenght encoding for unicode, using 4 bytes per character.
+
+
+        ASCII Example
+            Character: A
+            Code Point: 65
+            Binary Representation: 01000001
+        Unicode Example
+            Character: 😊
+            Code Point: U+1F60A
+            UTF-8 Encoding: 0xF0 0x9F 0x98 0x8A
+            UTF-16 Encoding: 0xD83D 0xDE0A
+
+Common Pitfalls
+
+    Mismatched Encoding: If the encoding used to write data differs from the encoding used to read it,
+                        the text may appear corrupted.
+
+    Legacy Encodings: Older encodings like ISO-8859-1 or Windows-1252 may not support all characters,
+                    leading to compatibility issues.
+
+    Variable-Length Encodings: Encodings like UTF-8 require careful handling when processing 
+                                individual characters, as some characters may span multiple bytes.
+
+
+Runes in GO Lang: https://www.youtube.com/watch?v=1pOfYd0y6_4
+
+    In go, a rune is an alias for the int32 type and is used to represent a unicode code point.
+    A rune is essentially a numeric value that corresponds to a chracter in the unicode standart
+
+    type rune= int32
+
+    Purpose: Runes are used to handle character in go, especially when working with unicode text.
+
+
+
+Are runes UTF32?
+
+    No! runes are not utf32, but theyu are closely related. Here's the distinction:
+
+    A rune represent a unicode code point, which in a  numeric value.
+    utf32 is an encoding that represent each unicde code point as fixed lenght 4 byter sequence.
+    while runes are stored as int32(4 bytes), they are not encoded in utf32 formati/
+
+    In short:
+    A rune is a numeric value(int32) representing a unicode code point.
+    utf32 is a specific encoding format for storing unocd ecode points.
+
+
+Are Runes of Constant Length?
+
+    Yes, runes are of constant length in Go because they are always stored as int32,
+    which is 4 bytes. 
+
+    However, the characters they represent may vary in length when encoded in formats like UTF-8 or UTF-16.
+
+    Rune Length: Always 4 bytes (int32).
+        Character Length in UTF-8: Variable (1 to 4 bytes).
+        Character Length in UTF-16: Variable (2 or 4 bytes).
+
+
+    package main
+
+    import "fmt"
+
+    func main() {
+        str := "Go 😊"
+        for i, r := range str {
+            fmt.Printf("Index: %d, Rune: %c, Unicode: %U\n", i, r, r)
+        }
+    }
+
+    Index: 0, Rune: G, Unicode: U+0047
+    Index: 1, Rune: o, Unicode: U+006F
+    Index: 2, Rune:  , Unicode: U+0020
+    Index: 3, Rune: 😊, Unicode: U+1F60A
+
+
+
+
+

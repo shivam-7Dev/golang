@@ -1,0 +1,187 @@
+Format specifers
+
+    %v => default verb. the value in default format
+    %+v => THe value in the default format with the fied names.
+    %#v=>  Go syntax representaion of the value
+    %T=> prints the type of value
+    %% => A literal percent sign.
+
+    %d => deciaml integer
+    %b =>binary representaion
+    %x=> Hexadecimal representaion
+    %f =>floation point number
+    
+    %s => simple string
+    %q => quoted string
+
+
+
+1. Core Functions in fmt => The fmt package is divided into three main categories:
+
+A. I/O functions  
+
+    Printing Functions (Output)
+    fmt.Print()=> Prints the arguments as-is whithout new Line 
+    fmt.Println() => preintes the arguments followed by a new Line
+    fmt.Printf() => prints th argumets using format specifers/Formatted printing using verbs (%d, %s, etc.)
+
+
+    Returning string insted of printing:
+
+    fmt.Sprint() => returns a formatted string without printing it.
+                    (No space) does not add any space in between arguments
+	                Returned strint does not have the new line charter
+
+    fmt.Sprintln()=> return the concatinated striping with spaced added 
+                     The retuned value have new line chracter at the end
+
+    fmt.Sprintf()=> its like Printf but it does not print the value but returns the string
+                    its line printf but it does not print the value
+                    it does not add new line character the return value
+
+    Writing to file/buffer:
+    fmt.Fprint() => writes formatted output to a writer(eg. a file or buffer).
+    fmt.Fprintf() => writes formatter output to a writer and erturns the number of bytes writter.
+                    Writes formatted output to an io.Writer (e.g., files)
+
+    Error:
+    fmt.Error() => creates formatted error message.
+
+
+B. Scanning Functions (Input)
+
+    fmt.scan() => Reads space-separated values from standard input.
+    fmt.Scanln()=>  Reads until new line/ Reads space separated values, stopping at new line.
+    fmt.scanf() => Reads formatted inputs using format specifiers.
+    fmt.Fscan() => Reads input from a reader(eg a file or buffer).
+    fmt.Scan() => parses a string with formatting.
+
+
+C. String Formatting (Verbs):Formatting verbs (%d, %s, etc.) define how values are displayed.
+
+    fmt.Printf("Name: %s, Age: %d", "Alice", 30)
+    // Output: Name: Alice, Age: 30
+
+
+2. Formatting Verbs (Detailed Breakdown)
+
+    A. General Verbs
+
+    Verb	    Description	                    Example
+    %v	        Default format	                {Alice 30}
+    %#v	        Go-syntax representation	    main.Person{Name:"Alice"}
+    %T	        Type of value	                string, []int
+    %%	        Literal percent sign	            %
+
+    B. Boolean Formatting
+
+
+        Verb	    Output
+        %t	        true or false
+
+    C. Integer Formatting
+
+        Verb	    Format	            Example (42)
+        %b	        Binary	            101010
+        %d	        Decimal	            42
+        %o	        Octal	            52
+        %x	        Hex (lowercase) 	2a
+        %X	        Hex (uppercase)	    2A
+        %c	        Unicode char	    * (ASCII 42)
+
+
+    D. Floating-Point Formatting
+
+        Verb	        Format	            Example (3.14159)
+        %f	            Decimal	            3.141593
+        %e	            Scientific (e)	    3.141593e+00
+        %E	            Scientific (E)	    3.141593E+00
+        %g	            Auto (%e/%f)	    3.141593
+
+
+    E. String & Rune Formatting
+
+        Verb	        Format	                    Example ("Go")
+        %s              simple/Raw string	        Go
+        %q	            Quoted string	           "Go"
+        %x	            Hex (bytes)	               476f
+        %X	            Hex (uppercase)	           476F
+        %U	            Unicode format	           U+0047 U+006F
+
+
+    F. Pointer Formatting
+
+        Verb	    Format	        Example (&x)
+        %p	        Memory address	0xc000018050
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
