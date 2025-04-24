@@ -129,10 +129,17 @@ func stringConcatenationComparison() {
 	fmt.Printf("Using bytes.Buffer: %v\n", time.Since(start))
 
 	/*
-			Using + operator: 2.17190444s
+		Using + operator: 2.17190444s
 		Using strings.Builder: 552.513µs
 		Using bytes.Buffer: 476.496µs
 
+	*/
+
+	/*
+		Result on mac
+		Using + operator: 1.124576417s
+		Using strings.Builder: 251.458µs
+		Using bytes.Buffer: 234.916µs
 	*/
 }
 
