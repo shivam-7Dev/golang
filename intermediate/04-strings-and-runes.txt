@@ -1,8 +1,51 @@
 Strings:
 
-    A string in go is a read only slice of bytes ([]bytes)
+    A string in go is a read only slice of bytes ([]bytes).
     It is immutable that is a string can not be modified after creation
     string is encoded in utf8 by default(variable width encoding)
+
+    Each byte is a string represents a single unit of data, which may corresponds to :
+        1. A single ascii character(for charachers in ascii range ,127)
+        2.A part of a mulit-byte characher(for characher outside outside ascii range) such as 
+         unicode chracter.
+    Go strings are utf-8 encode by default, meaning that:
+        1. Ascii characters are represented by 1 byte(8 bits/0and 1).
+        2.Non ascii characher (eg uncode character) are repsented by multiple bytes(1 to 4 bytes)
+
+    ```
+    const s = "hello 世界";
+    console.log(s[0]); // Output: h (character at index 0)
+    console.log(s.charCodeAt(6)); // Output: 19990 (Unicode code point of '世')
+    //Key Point: JavaScript abstracts away the underlying byte representation, 
+                    so you work directly with characters.
+    ```
+
+    Go Strings
+        In Go, a string is a read-only slice of bytes ([]byte).
+        Each byte represents a unit of data, which may correspond to:
+            A single ASCII character (1 byte).
+            A part of a multi-byte Unicode character (1 to 4 bytes for UTF-8 encoding).
+        Accessing a string by index (s[i]) gives you the byte at that position, 
+        not the character.
+
+        s := "hello 世界"
+        fmt.Println(s[0]) // Output: 104 (byte value of 'h')
+        fmt.Println(s[6]) // Output: 228 (first byte of '世')
+
+
+    eg:"hello 世界"
+        h -> 104
+        e -> 101
+        l -> 108
+        l -> 108
+        o -> 111
+        -> 32 (space)
+        世 -> 228 184 150 (3 bytes in UTF-8)
+        界 -> 231 149 140 (3 bytes in UTF-8)
+    Each byte of string is printed a sits numric value(in Decimal)
+    UTF8 encoding represents acii chracter as one byte (8bits) and unicode 
+    chracters as multi byte characher
+
 
     Internal Representation
 

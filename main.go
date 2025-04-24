@@ -17,7 +17,8 @@ func main() {
 	// intermediate.StringAndRunes2()
 	// intermediate.StringsPractice()
 	// intermediate.Formating()
-	intermediate.FMT()
+	// intermediate.FMT()
+	intermediate.StringProblmes()
 	/*Formating
 	*advance
 	 */
