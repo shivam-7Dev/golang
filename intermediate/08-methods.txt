@@ -1,0 +1,48 @@
+methods:
+    In Go, methods are functions that are associated with a specific type. 
+    They allow you to define behavior (functions) for a type,
+    enabling object-oriented-like programming in Go.
+    Methods are fuctions associated with a particula type.
+    they can be assocated with any type not just struct.
+    methods allow us to define a behavior
+    we make methods are declaring a reciever.
+
+    func (receiverType ReceiverName) MethodName(parameters) returnType {
+        // Method body
+    }
+
+
+
+Components:
+    Receiver:
+        The receiver is the type the method is associated with.
+        It is specified before the method name in parentheses.
+        Example: (e Emp) or (e *Emp).
+
+        Value Receiver:
+            The method operates on a copy of the receiver.
+            Changes made inside the method do not affect the original value.
+
+            func (e Emp) displayInfo() {
+                e.age = 35 // This change affects only the copy, not the original
+            }  
+
+        Pointer Receiver:
+            The method operates on the original value (via a pointer).
+            Changes made inside the method affect the original value
+
+            func (e *Emp) increaseAge(amount int) {
+                e.age += amount // This change affects the original value
+            }
+
+
+
+            
+    Method Name:
+        The name of the method, just like a function name.
+
+    Parameters:
+        The input parameters for the method.
+   
+   Return Type:
+    The type of value the method returns (if any).

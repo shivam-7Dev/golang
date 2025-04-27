@@ -18,8 +18,16 @@ func main() {
 	// intermediate.StringsPractice()
 	// intermediate.Formating()
 	// intermediate.FMT()
-	intermediate.StringProblmes()
+	// intermediate.StringProblmes()
+	// intermediate.StructExamples()
+	// intermediate.MethodsInGo()
+	intermediate.Interface()
 	/*Formating
 	*advance
 	 */
+
+	/*
+	 problmes examples package
+	*/
+	// problems.SimpleExample()
 }

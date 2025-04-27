@@ -1,0 +1,68 @@
+What is an Interface in Go?
+
+    An interface in Go is a collection of method signatures that define a behavior
+    A type implements an interface by implementing all its methods 
+    (implicitly, without explicitly declaring it).
+    Interface define a set of method signatures that a type must inplement
+    to satify the interface.
+    Interface promote code reuse, decoupling and plymorphism without 
+    relying on explicit inheritance.
+    Interface are declared outside the main function
+
+
+
+
+Basic Syntax
+
+    type InterfaceName interface {
+        Method1(paramList) returnTypes
+        Method2(paramList) returnTypes
+        // ...
+    }
+
+NOTE:
+    If methods have a pointer receiver, only pointers satisfy the interface.
+    If methods have a pointer receiver, only pointers satisfy the interface.
+
+    func (r rect) area() float64
+    func (r *rect) area() float64
+    r or *r is the receiver — it's like self in Python or this in Java/C++.
+    It decides whether the method operates on a copy or the original.
+
+
+
+
+
+Key Characteristics of Go Interfaces
+    Implicit Implementation: Types implement interfaces by implementing their methods, 
+                            without explicitly declaring it.
+    Duck Typing: "If it walks like a duck and quacks like a duck, it's a duck."
+    Composable: Interfaces can embed other interfaces.
+    Dynamic Dispatch: Method calls on interface values are resolved at runtime.
+
+
+
+
+Common Use Cases for Interfaces
+
+    Polymorphism: Treat different types uniformly
+    Dependency Injection: Pass dependencies as interfaces
+    Testing: Mock implementations for testing
+    API Design: Define behavior contracts
+    Decoupling: Reduce dependencies between packages
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

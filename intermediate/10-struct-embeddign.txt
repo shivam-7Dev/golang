@@ -1,0 +1,66 @@
+📚 1. What is Struct Embedding?
+Struct embedding is like inheritance in other languages (but not exactly the same).
+✅ It's Go's way of doing "inheritance", but using composition, which is a cleaner design principle.
+
+
+
+In Go:
+    You embed a struct into another struct.
+    The outer struct automatically gets access to the fields and methods of the embedded struct.
+    It promotes the embedded struct’s fields and methods.
+
+
+👉 It's code reuse + composition over inheritance.
+
+    type Animal struct {
+        Name string
+    }
+
+    func (a Animal) Speak() {
+        fmt.Println("I am", a.Name)
+    }
+
+    type Dog struct {
+        Animal  // <--- embedding Animal
+        Breed string
+    }
+
+    func main() {
+        d := Dog{
+            Animal: Animal{Name: "Tommy"},
+            Breed:  "Labrador",
+        }
+
+        d.Speak()   // Can directly call Speak() from Animal
+        fmt.Println(d.Name) // Can access Name directly
+        fmt.Println(d.Breed) // Dog's own field
+    }
+
+📚 2. Application (Why/When to use struct embedding)
+
+
+    Scenario                How Embedding Helps
+
+    Code reuse              Share common fields/methods across different structs without copying
+    Extend behavior         Add more specific fields/methods in child struct
+    Design hierarchy        Base struct has common stuff, embedded structs have specific stuff
+    Interface implementation  If embedded struct implements an interface, outer struct automatically does too!
+
+
+
+
+
+📚 5. Real-World Examples in Standard Library
+
+    ✅ http.Server embeds net.Listener.
+
+    ✅ json.Decoder embeds io.Reader.
+
+    ✅ errors.errorString embeds a struct for error handling.
+
+    ✅ You also see embedding a lot when building REST API models, ORM structs, etc.
+
+
+
+
+

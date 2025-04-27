@@ -1,0 +1,32 @@
+struct are defined using the type and struct keywords followed by curly braces{}
+they are used for modelling real world entities
+
+    type NameOfStruct struct {
+        field1 type
+        field2 type
+    }
+
+
+fields are defined with a name and a type
+Anonymous struct
+Anonymous fields
+
+methods
+    func (value/pointer receiver) methodName (arguments, if any ....)<return type, if any.> {
+        //methods body
+    }
+
+
+Method Declaration
+
+    value receiver methods:
+    func (t type) methodName(){
+        //method implementation
+    }
+
+    pointer receiver methods:
+    func(t *type) methodName(){
+        // methods implementation
+    }
+
+
