@@ -1,0 +1,247 @@
+What is Time in Go?
+
+In Go, time.Time is a struct type that represents an instant in time with nanosecond precision.
+ 
+It includes:
+    The wall clock time (hours, minutes, seconds, etc.)
+    The monotonic clock (for measuring durations)
+    The time zone information
+
+
+
+🔚 Summary:
+
+    time.Time represents a timestamp.
+    Create time via time.Now(), time.Date(), or time.Unix().
+    Use time.Parse and time.Format with layouts like 2006-01-02 15:04:05.
+    Operate on time with .Add, .Sub, .Before, .After, .Equal.
+    Use time.Duration for representing intervals (like 2h30m).
+    Work with time zones using LoadLocation and .In(loc).
+
+
+
+
+
+
+
+
+Creating Time Instances
+1. Current Time
+    now := time.Now() // Current local time
+
+2. Specific Date/Time
+
+    // Using time.Date()
+    t := time.Date(2023, time.November, 10, 23, 0, 0, 0, time.UTC)
+
+3. From Unix Timestamp
+
+    // From Unix time (seconds since epoch)
+    t := time.Unix(1699574400, 0)
+
+    // From Unix time with nanoseconds
+    t := time.Unix(1699574400, 500000000)
+
+4. Parsing Time from Strings
+
+    // Using predefined layouts
+    t, err := time.Parse(time.RFC3339, "2023-11-10T15:00:00Z")
+
+    // Custom layout (reference time: Mon Jan 2 15:04:05 MST 2006)
+    t, err := time.Parse("2006-01-02 15:04:05", "2023-11-10 15:00:00")
+
+Epoch Time (Unix Time)
+
+    Epoch time is the number of seconds that have elapsed since January 1, 1970 (UTC).
+
+    Getting Epoch Time
+
+        now := time.Now()
+        unixTime := now.Unix()      // Seconds since epoch
+        unixNano := now.UnixNano()  // Nanoseconds since epoch
+
+
+    Converting from Epoch Time
+
+        t := time.Unix(1699574400, 0)  // From seconds
+        t := time.Unix(0, 1699574400000000000)  // From nanoseconds
+
+Time Parsing and Formatting
+
+
+    Parsing Time
+
+    Go uses a reference time (Mon Jan 2 15:04:05 MST 2006) to define layouts:
+
+
+        const (
+            layout1 = "2006-01-02"
+            layout2 = "15:04:05"
+            layout3 = "Jan 2, 2006 at 3:04pm (MST)"
+        )
+
+        t, err := time.Parse(layout1, "2023-11-10")
+
+        Common predefined layouts:
+
+            time.ANSIC: "Mon Jan _2 15:04:05 2006"
+            time.RFC3339: "2006-01-02T15:04:05Z07:00"
+            time.RFC1123: "Mon, 02 Jan 2006 15:04:05 MST"
+
+    Formatting Time
+
+        t := time.Now()
+        fmt.Println(t.Format("2006-01-02 15:04:05"))
+        fmt.Println(t.Format(time.RFC822))
+
+
+Time Operations
+
+1. Comparing Times
+
+    t1 := time.Now()
+    t2 := t1.Add(time.Hour)
+
+    // Comparisons
+    isBefore := t1.Before(t2)  // true
+    isAfter := t1.After(t2)    // false
+    isEqual := t1.Equal(t2)    // false
+
+
+2. Adding/Subtracting Time
+
+    t := time.Now()
+
+    // Add duration
+    future := t.Add(2 * time.Hour)          // Add 2 hours
+    past := t.Add(-30 * time.Minute)        // Subtract 30 minutes
+
+    // AddDate (years, months, days)
+    nextMonth := t.AddDate(0, 1, 0)         // Add 1 month
+
+
+3. Calculating Duration Between Times
+
+
+    start := time.Now()
+    time.Sleep(2 * time.Second)
+    duration := time.Since(start)  // ~2 seconds
+
+
+4. Extracting Components
+
+    t := time.Now()
+    year := t.Year()         // 2023
+    month := t.Month()       // November
+    day := t.Day()           // 10
+    hour := t.Hour()         // 15
+    minute := t.Minute()     // 30
+    second := t.Second()     // 45
+    nano := t.Nanosecond()   // 123456789
+    weekday := t.Weekday()   // Friday
+
+
+5. Time Zone Operations
+
+
+    loc, err := time.LoadLocation("America/New_York")
+    nyTime := time.Now().In(loc)
+
+    // Convert between time zones
+    utcTime := nyTime.UTC()
+
+
+
+
+6. Truncating and Rounding
+
+    t := time.Date(2023, 11, 10, 15, 30, 45, 123456789, time.UTC)
+
+    // Truncate to hour
+    truncated := t.Truncate(time.Hour)  // 2023-11-10 15:00:00
+
+    // Round to nearest hour
+    rounded := t.Round(time.Hour)       // 2023-11-10 16:00:00
+
+Working with Durations:
+    Durations are represented by time.Duration (an int64 nanosecond count).
+
+    d := 2*time.Hour + 30*time.Minute  // 2h30m
+
+    // Convert duration to different units
+    hours := d.Hours()         // 2.5
+    minutes := d.Minutes()     // 150
+    seconds := d.Seconds()     // 9000
+    millis := d.Milliseconds() // 9000000
+
+
+Best Practices:
+Always store times in UTC and convert to local time only when displaying to users
+Use time.Time for instants and time.Duration for periods
+Be careful with time zone conversions - always specify the time zone explicitly
+Use monotonic time for measurements - 
+    time.Now() includes monotonic clock readings for accurate duration measurements
+Prefer time.ParseInLocation when you know the time zone of the input string
+
+
+Example: Complete Time Workflow
+
+    package main
+
+    import (
+        "fmt"
+        "time"
+    )
+
+    func main() {
+        // Create a time in New York timezone
+        loc, _ := time.LoadLocation("America/New_York")
+        t := time.Date(2023, time.November, 10, 15, 30, 0, 0, loc)
+        
+        // Convert to UTC
+        utcTime := t.UTC()
+        fmt.Println("UTC Time:", utcTime)
+        
+        // Format as RFC3339
+        fmt.Println("RFC3339:", t.Format(time.RFC3339))
+        
+        // Parse a time string
+        parsed, _ := time.Parse("2006-01-02 15:04:05", "2023-11-10 15:30:00")
+        fmt.Println("Parsed:", parsed)
+        
+        // Get Unix timestamp
+        fmt.Println("Unix:", t.Unix())
+        
+        // Add duration
+        future := t.Add(48 * time.Hour)
+        fmt.Println("48 hours later:", future)
+        
+        // Difference between times
+        duration := future.Sub(t)
+        fmt.Println("Duration:", duration)
+        
+        // Truncate to day
+        startOfDay := t.Truncate(24 * time.Hour)
+        fmt.Println("Start of day:", startOfDay)
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

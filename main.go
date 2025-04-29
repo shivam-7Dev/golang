@@ -5,6 +5,9 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"text/template"
+
+	"github.com/shivam/personal/golang/intermediate"
 )
 
 type school struct {
@@ -36,6 +39,7 @@ func main() {
 
 	// intermediate.TemplateBasic()
 	// intermediate.Temp()
+	intermediate.TimeOperations()
 	/*Formating
 	*advance
 	 */
@@ -46,7 +50,8 @@ func main() {
 	// problems.SimpleExample()
 
 	// inputOne()
-	inputTwo()
+	// inputTwo()
+	// inputThree()
 }
 
 func inputOne() {
@@ -93,5 +98,62 @@ func inputTwo() {
 		s.medium = strings.TrimSpace(mediumInput)
 
 		fmt.Printf("School details: %+v\n", s)
+	}
+}
+
+func inputThree() {
+
+	// step one => declare template string
+	templateMap := map[string]string{
+		"welcome":      "welcome {{.}}, we are glad you join",
+		"notification": "{{.}}, you have one notification",
+		"error":        "Opps! an error occured {{.}}",
+	}
+
+	//step 2 => parse and store template
+	parsedTemplate := make(map[string]*template.Template)
+
+	//loop over the template map and get the key and value
+	for key, value := range templateMap {
+		parsedTemplate[key] = template.Must(template.New(key).Parse(value))
+	}
+
+	reader := bufio.NewReader(os.Stdin)
+
+	for {
+		fmt.Println("------------------------------")
+		fmt.Println("1. welcome Template")
+		fmt.Println("2. Notification template")
+		fmt.Println("3. Error  template")
+		fmt.Println("4. exit program")
+		fmt.Print("\nEnter your choise:")
+		fmt.Println("------------------------------")
+
+		input, _ := reader.ReadString('\n')
+		input = strings.TrimSpace(input)
+
+		switch input {
+		case "1":
+			fmt.Print("\nEnter you name:")
+			name, _ := reader.ReadString('\n')
+			parsedTemplate["welcome"].Execute(os.Stdout, name)
+
+		case "2":
+			fmt.Print("\nEnter notification message:")
+			noti, _ := reader.ReadString('\n')
+			parsedTemplate["notification"].Execute(os.Stdout, noti)
+
+		case "3":
+			fmt.Print("\nEnter error message:")
+			err, _ := reader.ReadString('\n')
+			parsedTemplate["error"].Execute(os.Stdout, err)
+
+		case "4":
+			return
+		default:
+			fmt.Println("wrong option:try again")
+			fmt.Println("-------------------------")
+		}
+
 	}
 }

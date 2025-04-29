@@ -1,0 +1,312 @@
+package intermediate
+
+import (
+	"fmt"
+	"time"
+)
+
+// TimeOperations demonstrates all time operations
+func TimeOperations() {
+	fmt.Println("=== Time Operations Demo ===")
+
+	// Creation functions
+	creationDemo()
+
+	// Epoch time functions
+	epochDemo()
+
+	// Component extraction
+	componentDemo()
+
+	// Time operations
+	operationDemo()
+
+	// Formatting/parsing
+	formattingDemo()
+
+	// Time zone operations
+	timezoneDemo()
+
+	// Truncation/rounding
+	truncationDemo()
+
+	// Duration operations
+	durationDemo()
+}
+
+// ===== Time Creation Functions =====
+func creationDemo() {
+	fmt.Println("\n--- Time Creation ---")
+
+	// Current time
+	current := Now()
+	fmt.Println("Current time:", current)
+
+	// Specific time
+	specific := Create(2023, time.November, 10, 15, 30, 0, 0, time.UTC)
+	fmt.Println("Specific time:", specific)
+
+	// From Unix
+	fromUnix := FromUnix(1699574400, 0)
+	fmt.Println("From Unix:", fromUnix)
+
+	// Parsed time
+	parsed, err := Parse("2006-01-02", "2023-11-10")
+	if err == nil {
+		fmt.Println("Parsed time:", parsed)
+	}
+}
+
+func Now() time.Time {
+	return time.Now()
+}
+
+func Create(year int, month time.Month, day, hour, min, sec, nsec int, loc *time.Location) time.Time {
+	return time.Date(year, month, day, hour, min, sec, nsec, loc)
+}
+
+func FromUnix(sec int64, nsec int64) time.Time {
+	return time.Unix(sec, nsec)
+}
+
+func Parse(layout, value string) (time.Time, error) {
+	return time.Parse(layout, value)
+}
+
+// ===== Epoch Time Functions =====
+func epochDemo() {
+	fmt.Println("\n--- Epoch Time ---")
+
+	now := Now()
+
+	// To Unix
+	sec, nsec := ToUnix(now)
+	fmt.Printf("Unix time: %d seconds, %d nanoseconds\n", sec, nsec)
+
+	// From Unix back
+	fromUnix := FromUnix(sec, nsec)
+	fmt.Println("Round trip:", fromUnix)
+}
+
+func ToUnix(t time.Time) (int64, int64) {
+	return t.Unix(), t.UnixNano()
+}
+
+// ===== Component Extraction =====
+func componentDemo() {
+	fmt.Println("\n--- Time Components ---")
+
+	t := Create(2023, time.November, 10, 15, 30, 45, 0, time.UTC)
+
+	fmt.Println("Year:", Year(t))
+	fmt.Println("Month:", Month(t))
+	fmt.Println("Day:", Day(t))
+	fmt.Println("Hour:", Hour(t))
+	fmt.Println("Minute:", Minute(t))
+	fmt.Println("Second:", Second(t))
+	fmt.Println("Weekday:", Weekday(t))
+}
+
+func Year(t time.Time) int {
+	return t.Year()
+}
+
+func Month(t time.Time) time.Month {
+	return t.Month()
+}
+
+func Day(t time.Time) int {
+	return t.Day()
+}
+
+func Hour(t time.Time) int {
+	return t.Hour()
+}
+
+func Minute(t time.Time) int {
+	return t.Minute()
+}
+
+func Second(t time.Time) int {
+	return t.Second()
+}
+
+func Weekday(t time.Time) time.Weekday {
+	return t.Weekday()
+}
+
+// ===== Time Operations =====
+func operationDemo() {
+	fmt.Println("\n--- Time Operations ---")
+
+	t1 := Create(2023, time.November, 10, 15, 0, 0, 0, time.UTC)
+	t2 := Create(2023, time.November, 10, 16, 0, 0, 0, time.UTC)
+
+	// Addition
+	added := Add(t1, 2*time.Hour)
+	fmt.Println("Added 2 hours:", added)
+
+	// Subtraction
+	subtracted := Add(t1, -30*time.Minute)
+	fmt.Println("Subtracted 30 minutes:", subtracted)
+
+	// Date addition
+	dateAdded := AddDate(t1, 0, 1, 0)
+	fmt.Println("Added 1 month:", dateAdded)
+
+	// Comparison
+	fmt.Println("t1 before t2?", Before(t1, t2))
+	fmt.Println("t1 after t2?", After(t1, t2))
+	fmt.Println("t1 equal t2?", Equal(t1, t2))
+
+	// Difference
+	diff := Difference(t1, t2)
+	fmt.Println("Duration between t1 and t2:", diff)
+}
+
+func Add(t time.Time, d time.Duration) time.Time {
+	return t.Add(d)
+}
+
+func AddDate(t time.Time, years, months, days int) time.Time {
+	return t.AddDate(years, months, days)
+}
+
+func Before(t1, t2 time.Time) bool {
+	return t1.Before(t2)
+}
+
+func After(t1, t2 time.Time) bool {
+	return t1.After(t2)
+}
+
+func Equal(t1, t2 time.Time) bool {
+	return t1.Equal(t2)
+}
+
+func Difference(t1, t2 time.Time) time.Duration {
+	return t2.Sub(t1)
+}
+
+// ===== Formatting/Parsing =====
+func formattingDemo() {
+	fmt.Println("\n--- Formatting/Parsing ---")
+
+	t := Create(2023, time.November, 10, 15, 30, 0, 0, time.UTC)
+
+	// Formatting
+	fmt.Println("Formatted:", Format(t, "2006-01-02 15:04:05"))
+
+	// Parsing
+	parsed, err := Parse("2006-01-02", "2023-11-10")
+	if err == nil {
+		fmt.Println("Parsed:", parsed)
+	}
+
+	// RFC3339 format
+	fmt.Println("RFC3339:", FormatRFC3339(t))
+}
+
+func Format(t time.Time, layout string) string {
+	return t.Format(layout)
+}
+
+func FormatRFC3339(t time.Time) string {
+	return t.Format(time.RFC3339)
+}
+
+// ===== Time Zone Operations =====
+func timezoneDemo() {
+	fmt.Println("\n--- Time Zone Operations ---")
+
+	t := Create(2023, time.November, 10, 15, 30, 0, 0, time.UTC)
+
+	// Load location
+	ny, err := LoadLocation("America/New_York")
+	if err != nil {
+		fmt.Println("Error loading location:", err)
+		return
+	}
+
+	// Convert to location
+	nyTime := InLocation(t, ny)
+	fmt.Println("NY time:", nyTime)
+
+	// Convert to UTC
+	utcTime := UTC(t)
+	fmt.Println("UTC time:", utcTime)
+}
+
+func LoadLocation(name string) (*time.Location, error) {
+	return time.LoadLocation(name)
+}
+
+func InLocation(t time.Time, loc *time.Location) time.Time {
+	return t.In(loc)
+}
+
+func UTC(t time.Time) time.Time {
+	return t.UTC()
+}
+
+// ===== Truncation/Rounding =====
+func truncationDemo() {
+	fmt.Println("\n--- Truncation/Rounding ---")
+
+	t := Create(2023, time.November, 10, 15, 30, 45, 0, time.UTC)
+
+	// Truncate
+	trunc := Truncate(t, time.Hour)
+	fmt.Println("Truncated to hour:", trunc)
+
+	// Round
+	rounded := Round(t, time.Hour)
+	fmt.Println("Rounded to hour:", rounded)
+}
+
+func Truncate(t time.Time, d time.Duration) time.Time {
+	return t.Truncate(d)
+}
+
+func Round(t time.Time, d time.Duration) time.Time {
+	return t.Round(d)
+}
+
+// ===== Duration Operations =====
+func durationDemo() {
+	fmt.Println("\n--- Duration Operations ---")
+
+	// Create duration
+	d := CreateDuration(2, 30, 0) // 2h30m0s
+	fmt.Println("Duration:", d)
+
+	// Convert to units
+	fmt.Println("Hours:", Hours(d))
+	fmt.Println("Minutes:", Minutes(d))
+	fmt.Println("Seconds:", Seconds(d))
+
+	// String representation
+	fmt.Println("String:", DurationString(d))
+}
+
+func CreateDuration(hours, minutes, seconds int) time.Duration {
+	return time.Duration(hours)*time.Hour +
+		time.Duration(minutes)*time.Minute +
+		time.Duration(seconds)*time.Second
+}
+
+func Hours(d time.Duration) float64 {
+	return d.Hours()
+}
+
+func Minutes(d time.Duration) float64 {
+	return d.Minutes()
+}
+
+func Seconds(d time.Duration) float64 {
+	return d.Seconds()
+}
+
+func DurationString(d time.Duration) string {
+	return d.String()
+}

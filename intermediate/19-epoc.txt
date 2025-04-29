@@ -1,0 +1,35 @@
+Categor             Operation	            Function/Example
+
+Creation	        Current Time	        time.Now()
+                    From Epoch Seconds	    time.Unix(sec, 0)
+                    From Epoch Millis	    time.Unix(0, ms * int64(time.Millisecond))
+                    Specific Date/Time	    time.Date(...)
+
+Epoch Conversion	Get Seconds	            t.Unix()
+                    Get Milliseconds/Nanos	t.UnixNano()
+                    From Unix Timestamp	    time.Unix(...)
+                    
+Parsing 
+& Formatting	    Parse String to Time	time.Parse(layout, str)
+                    Format Time to String	t.Format(layout)
+                    ISO Layouts	            time.RFC3339, etc.
+
+Comparison	        Check Equality	        t1.Equal(t2)
+                    Check Before/After	    t1.Before(t2), t1.After(t2)
+
+Arithmetic	        Add Duration	        t.Add(2 * time.Hour)
+                    Subtract Duration	    t.Add(-2 * time.Hour)
+                    Time Difference	        t2.Sub(t1)
+
+Durations	        Create Duration	        2*time.Hour + 30*time.Minute
+                    Convert	                .Hours(), .Minutes(), etc.
+
+Utilities	        time.Since(t)	        Time since t
+                    time.Until(t)	        Time until t
+                    time.Sleep(d)	        Sleep for d
+                    time.After(d)	        Channel fires after d
+                    time.Tick(d)	        Ticker every d
+
+Time Zones	        Convert to UTC	        t.UTC()
+                    Change Location	        t.In(loc)
+                    Load Location	        time.LoadLocation("Asia/Kolkata")
