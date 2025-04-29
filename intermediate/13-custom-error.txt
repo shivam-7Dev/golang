@@ -1,0 +1,105 @@
+Custom error in go:
+
+In Go, an error is just any type that implements the interface:
+    
+    type error interface {
+        Error() string
+    }
+
+    A custom error is when you create your own type (usually a struct) that satisfies this error interface.
+    This way, you control what data and behavior the error has.
+
+✅ Custom errors give you:
+    Extra fields (like error code, metadata).
+    Better control.
+    Richer debugging information.
+    Ability to categorize different types of errors.
+
+    ✅ Example: HTTP APIs want to return status code + message together — custom errors are the best way.
+
+
+📚 How to Create a Custom Error in Go?
+
+1. Define a Custom Struct:You make a struct that holds your error information.
+
+    type MyCustomError struct {
+        Code    int
+        Message string
+    }
+
+2. Implement the Error() string Method:You must attach a method called Error() to satisfy error interface.
+
+    func (e *MyCustomError) Error() string {
+        return fmt.Sprintf("Error %d: %s", e.Code, e.Message)
+    }
+
+    ✅ Now, *MyCustomError is an error.
+
+
+3. Use the Custom Error
+
+    func doSomething() error {
+        return &MyCustomError{Code: 404, Message: "Resource not found"}
+    }
+
+    func main() {
+        err := doSomething()
+        if err != nil {
+            fmt.Println("Got error:", err)
+        }
+    }
+
+
+📚 Advanced: Factory Functions for Errors
+
+Instead of creating errors manually, you can create constructor functions:
+
+    func NewNotFoundError(resource string) *MyCustomError {
+        return &MyCustomError{
+            Code:    404,
+            Message: fmt.Sprintf("%s not found", resource),
+        }
+    }
+
+    return NewNotFoundError("user")
+
+
+📚 Real-world Pattern: Error Codes and Metadata:Imagine you are building a big server:
+
+    type AppError struct {
+        Code    int
+        Message string
+        Details map[string]interface{}
+    }
+
+    func (e *AppError) Error() string {
+        return fmt.Sprintf("[%d] %s", e.Code, e.Message)
+    }
+
+    func NewAppError(code int, msg string, details map[string]interface{}) *AppError {
+        return &AppError{
+            Code:    code,
+            Message: msg,
+            Details: details,
+        }
+    }
+
+
+
+Now:
+
+    You can send e.Code as HTTP response code.
+
+    You can log e.Details for debugging.
+
+    ✅ Very useful for building REST APIs, microservices, CLI tools, etc.
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,4 @@
+fmt.scanln(&s.medium).
+
+    The problem is with how fmt.Scanln() works - 
+    it reads input only until the first whitespace character. 

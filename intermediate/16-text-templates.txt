@@ -1,0 +1,162 @@
+📚 1. What is text/template in Go?
+
+    ✅ text/template is a Go standard library package that allows you to create dynamic text output 
+    by inserting data into a template file or string.
+    Think of it like Mustache or Handlebars (JS template engines) but in Go.
+    It's very type-safe, fast, and powerful.
+
+📚 2. Basic Structure of a Template
+
+Text: Static parts
+Actions: Inside {{ }} (dynamic parts)
+
+         variable insertion
+         pipeline
+         control structure {{if .cond}} .. {{else}} ... {{end}}
+         iteration {{range .slice}} ... {{end}}
+
+Note: Templates are executed by applying then to data strucre know as template data
+      Thesse data structures can be simple value like struct, slices, maps or any custom types
+
+1. Basic Template Usage
+
+
+    package main
+
+    import (
+        "os"
+        "text/template"
+    )
+
+    func main() {
+        // Define a simple template
+        tmpl := `Hello, {{.}}!`
+
+        // Parse the template
+        t, err := template.New("greeting").Parse(tmpl)
+        if err != nil {
+            panic(err)
+        }
+
+        // Execute the template with data
+        err = t.Execute(os.Stdout, "World")
+        if err != nil {
+            panic(err)
+        }
+        // Output: Hello, World!
+    }
+
+        Template.Must for Simplified Error Handling
+
+
+        t := template.Must(template.New("greeting").Parse("Hello, {{.}}!"))
+        t.Execute(os.Stdout, "World")
+
+
+
+
+Pipelines (|)
+
+    ✅ Pipelines allow chaining functions inside templates.
+    ✅ Pipelines are powerful for formatting data without changing Go code.
+
+
+        Hello, {{ .Name | upper }}
+
+        {{ printf "%q" .Name }}
+
+
+        t := template.Must(template.New("pipeline").Parse(`
+        {{"hello" | printf "%s there" | printf "%s!"}}
+        `))
+        t.Execute(os.Stdout, nil)
+        // Output: hello there!
+
+
+    Common built-in functions include:
+
+        printf: formatted printing
+        len: length of a value
+        index: array/slice indexing
+        html, js: escape for HTML/JS contexts
+
+
+
+
+If-Else Conditions:
+
+        t := template.Must(template.New("ifelse").Parse(`
+        {{if .Enabled}}Feature is enabled{{else}}Feature is disabled{{end}}
+        `))
+
+
+Range Loops
+
+    t := template.Must(template.New("range").Parse(`
+    {{range .Items}}
+    - {{.}}
+    {{end}}
+    `))
+
+
+With Statement
+
+    t := template.Must(template.New("with").Parse(`
+    {{with .User}}
+    Name: {{.Name}}
+    Email: {{.Email}}
+    {{end}}
+    `))
+
+
+
+
+Email Templates
+
+
+
+    emailTemplate := template.Must(template.New("email").Parse(`
+    From: {{.From}}
+    To: {{.To}}
+    Subject: {{.Subject}}
+
+    Dear {{.RecipientName}},
+
+    {{.Body}}
+
+    Regards,
+    {{.SenderName}}
+    `))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

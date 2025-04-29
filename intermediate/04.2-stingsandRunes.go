@@ -32,8 +32,8 @@ func stringDeclarationAndProperties() {
 	unicodeStr := "hello 世界"
 	rawStr := `raw\nstring`
 	multilineStr := `This is
-a multi-line
-string`
+				a multi-line
+				string`
 
 	fmt.Println("ASCII string:", asciiStr)
 	fmt.Println("Unicode string:", unicodeStr)

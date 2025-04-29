@@ -1,0 +1,205 @@
+📚 What is Error in Go?
+In Go, error is a built-in interface used to represent something went wrong.
+
+The error interface is very simple:
+    At its core, Go's error system is built on a simple interface:
+
+    type error interface {
+        Error() string
+    }
+
+✅ Any type that has a method Error() string implements the error interface.
+
+
+
+📚 How Error Handling in Go is Different from JavaScript?
+
+    Go	                                        JavaScript
+
+    No try-catch blocks	                        Has try-catch-finally
+    Errors are values	                        Errors are exceptions
+    You handle error explicitly everywhere	    Exceptions "bubble up" automatically
+    if err != nil {} is everywhere	            try-catch once at top level
+    Forces you to think about errors carefully	Easier to skip thinking until runtime
+
+    No try-catch blocks: Go uses explicit error return values instead
+    Errors are values: Errors are regular values that implement the error interface
+    Explicit checking: You must explicitly check each error
+    No stack traces by default: Go errors don't automatically include stack traces
+
+
+
+✅ Go philosophy:
+    "Don't panic, handle errors like regular values."
+✅ Go encourages:
+    Clear error handling.
+    No hidden control flow.
+
+
+
+📚 Types of Errors in Go
+
+    Type	                Meaning
+    Standard errors	        Created with errors.New() or fmt.Errorf().
+    Custom errors	        Your own types implementing Error() method.
+    Wrapped errors	        Errors wrapped using %w and fmt.Errorf().
+    Sentinel errors	        Predefined constant errors (io.EOF, sql.ErrNoRows).
+    Runtime panics	        panic() calls, not normal errors. Need recover().
+
+Types of Errors in Go
+
+
+1. Basic Errors:Created using errors.New() or fmt.Errorf():
+
+    err := errors.New("something went wrong")
+    err := fmt.Errorf("invalid value: %v", value)
+
+2. Custom Error Types:You can create structured errors by defining your own types:
+
+    type MyError struct {
+        Code    int
+        Message string
+        Details string
+    }
+
+    func (e *MyError) Error() string {
+        return fmt.Sprintf("%d: %s (%s)", e.Code, e.Message, e.Details)
+    }
+
+    // Usage
+    err := &MyError{
+        Code:    404,
+        Message: "Not Found",
+        Details: "The requested resource was not found",
+    }
+
+3. Wrapped Errors (Go 1.13+):Errors can wrap other errors to provide context:
+
+    err := fmt.Errorf("operation failed: %w", originalErr)
+
+
+4. Sentinel Errors:Predefined errors used for specific conditions:
+
+
+    var ErrNotFound = errors.New("not found")
+
+    func Find(id int) error {
+        return ErrNotFound
+    }
+
+
+Error Handling Patterns
+
+1. Basic Error Checking
+
+    result, err := SomeFunction()
+    if err != nil {
+        // Handle error
+        return err
+    }
+
+2. Error Wrapping
+
+
+    func Process(input string) error {
+        result, err := Parse(input)
+        if err != nil {
+            return fmt.Errorf("parsing failed: %w", err)
+        }
+        // ...
+    }
+
+3. Error Inspection (Go 1.13+)
+
+
+    if errors.Is(err, ErrNotFound) {
+        // Handle specific error
+    }
+
+    var e *MyError
+    if errors.As(err, &e) {
+        // Access fields of MyError
+        fmt.Println(e.Code)
+    }
+
+Getting Stack Traces:
+    Go doesn't include stack traces in errors by default, but you can:
+
+1. Using runtime package
+    import "runtime/debug"
+
+    func foo() error {
+        _, file, line, _ := runtime.Caller(1)
+        return fmt.Errorf("error at %s:%d", file, line)
+    }
+
+
+
+Advanced Error Techniques
+
+1. Error Hierarchies
+
+    type TransportError struct {
+        URL string
+        Err error
+    }
+
+    func (e *TransportError) Error() string {
+        return fmt.Sprintf("transport error for %s: %v", e.URL, e.Err)
+    }
+
+    func (e *TransportError) Unwrap() error {
+        return e.Err
+    }
+
+2. Temporary Errors
+
+    type temporary interface {
+        Temporary() bool
+    }
+
+    func IsTemporary(err error) bool {
+        if te, ok := err.(temporary); ok {
+            return te.Temporary()
+        }
+        return false
+    }
+
+3. Retry Logic
+
+    func Retry(fn func() error, attempts int, delay time.Duration) error {
+        var err error
+        for i := 0; i < attempts; i++ {
+            if err = fn(); err == nil {
+                return nil
+            }
+            time.Sleep(delay)
+        }
+        return fmt.Errorf("after %d attempts: %w", attempts, err)
+    }
+
+Best Practices:
+
+    Always handle errors immediately when you have the context to do so
+    Add context when propagating errors up the call stack
+    Use sentinel errors for expected error conditions
+    Create custom error types when you need to carry additional information
+    Document which errors your functions might return
+    Consider error handling as part of your function's API design
+    Use errors.Is and errors.As for error inspection (Go 1.13+)
+    Keep error messages clear and actionable
+
+
+When to Use Panic
+
+While most error handling should use the error pattern, panic is appropriate for:
+
+    Programmer errors (e.g., nil pointer dereference)
+    Truly unrecoverable situations (e.g., database connection lost in initialization)
+    Violation of critical invariants in your application
+
+Remember: panic should generally be reserved for situations where continuing execution 
+          would cause more problems than terminating the program.
+
+
+
