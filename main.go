@@ -42,8 +42,9 @@ func main() {
 	// intermediate.TimeOperations()
 	// intermediate.RandNumberInro()
 	// intermediate.URLParsingIntro()
-	intermediate.BuffioInto()
+	// intermediate.BuffioInto()
 	// intermediate.Base64Intro()
+	intermediate.HasingInto()
 	/*Formating
 	*advance
 	 */

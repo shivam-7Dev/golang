@@ -1,0 +1,27 @@
+🔐 What is Hashing?
+Hashing is the process of converting input data (any size) into a fixed-size string of characters  which is typically a hexadecimal value.
+It's used in security, checksums, password storage, and more.
+
+
+key components
+    deterministic:Same input always gives the same output.
+
+    fast computation: Hash functions are designed to be fast. 
+                      Go’s standard libraries (like crypto/sha256, crypto/sha512) are optimized and fast.
+
+    pre image resistance: Given a hash, it should be hard to reverse to find the original input.
+
+    collision resistance:Two different inputs shouldn’t have the same hash.
+                        SHA-256 and SHA-512 have strong collision resistance, which is why they’re widely used.
+
+    sha 256:
+
+    sha 512:
+
+    salting:Adding random data (a "salt") to input before hashing to avoid predictable hashes — especially for passwords.
+
+
+
+Best practice
+    use of standard libraries
+    alogrith updates

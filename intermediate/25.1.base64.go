@@ -11,6 +11,7 @@ func Base64Intro() {
 	binaryToBase64()
 	decondingBase64tostring()
 	encodeDecodeBytes()
+	urlSafeExample()
 }
 
 func binaryToBase64() {
@@ -44,4 +45,23 @@ func encodeDecodeBytes() {
 	fmt.Println("Encoded :", encoded)
 	fmt.Println("Decoded :", decoded)
 
+}
+
+func urlSafeExample() {
+	fmt.Println("---URL-Safe Encoding Example---")
+
+	// Original data with characters that would cause URL issues
+	input := "Hello+World/with?special=chars"
+
+	// Standard encoding (may cause issues in URLs)
+	stdEncoded := base64.StdEncoding.EncodeToString([]byte(input))
+	fmt.Println("Standard encoded:", stdEncoded)
+
+	// URL-safe encoding (safe for use in URLs)
+	urlEncoded := base64.URLEncoding.EncodeToString([]byte(input))
+	fmt.Println("URL-safe encoded:", urlEncoded)
+
+	// Decode the URL-safe string
+	decoded, _ := base64.URLEncoding.DecodeString(urlEncoded)
+	fmt.Println("Decoded:", string(decoded))
 }
