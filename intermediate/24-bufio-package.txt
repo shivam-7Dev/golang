@@ -1,0 +1,171 @@
+🔹 What is bufio?
+bufio stands for Buffered I/O. 
+It's a Go package that helps read from and write to data more efficiently by buffering.
+Instead of reading/writing small pieces at a time (which is slow), it reads/writes larger chunks internally 
+and gives you convenient methods like reading a line, word, or writing a string.
+
+
+
+
+
+🔸 First, what is an io.Reader and io.Writer?
+
+These are interfaces from the io package.
+
+
+🔹 io.Reader:
+It represents something you can read from, like a file, network connection, or a string.
+
+    type Reader interface {
+        Read(p []byte) (n int, err error)
+    }
+
+    It has one method: Read(), which reads data into a byte slice.
+
+🔹 io.Writer:
+
+    It represents something you can write to, like a file, a network, or a buffer.
+
+    type Writer interface {
+        Write(p []byte) (n int, err error)
+    }
+    It has one method: Write() to write data from a byte slice.
+
+
+
+
+
+🔸 bufio.NewReader – Buffered Reader
+
+    🔹 What it takes as input:
+        It takes anything that implements io.Reader. Like a file or a string reader.
+
+        reader := bufio.NewReader(someReader)
+
+
+    🔹 What it returns:
+
+        It returns a *bufio.Reader which has helper methods to read more conveniently, like:
+            ReadLine()
+            ReadBytes('\n')
+            ReadString('\n')
+            Peek(n int)
+            etc.
+
+
+        package main
+
+        import (
+            "bufio"
+            "fmt"
+            "strings"
+        )
+
+        func main() {
+            text := "Hello\nWorld\n"
+            reader := bufio.NewReader(strings.NewReader(text))
+
+            line1, _ := reader.ReadString('\n')  // reads till \n
+            line2, _ := reader.ReadString('\n')
+
+            fmt.Print(line1)
+            fmt.Print(line2)
+        }
+
+
+
+🔸 bufio.NewWriter – Buffered Writer
+
+    🔹 What it takes as input:
+
+        🔹 What it takes as input:
+        writer := bufio.NewWriter(someWriter)
+
+
+
+    🔹 What it returns:
+        It returns a *bufio.Writer which buffers your writes. You can use methods like:
+        Write()
+        WriteString()
+        Flush() (important!)
+
+            package main
+
+            import (
+                "bufio"
+                "fmt"
+                "os"
+            )
+
+            func main() {
+                file, _ := os.Create("hello.txt")
+                writer := bufio.NewWriter(file)
+
+                writer.WriteString("Hello, Shivam!\n")
+                writer.WriteString("Welcome to Go!\n")
+
+                writer.Flush() // very important!
+
+            file.Close()
+        }
+
+
+
+🔸 What is Flush()?
+Flush() is used with bufio.Writer.
+When you write using bufio.Writer, the data goes into a buffer (temporary memory),
+ not the actual file/output immediately. Flush() sends the buffered data to the actual destination.
+⚠️ If you forget to call Flush(), your data might not get written at all!
+
+
+
+
+🔸 Summary Table
+
+    Feature	                        bufio.NewReader	                    bufio.NewWriter
+    Takes as input              	Anything with io.Reader	            Anything with io.Writer
+    Returns	                        *bufio.Reader	                    *bufio.Writer
+    Useful methods	                ReadString, ReadBytes	            Write, WriteString
+    Needs Flush()?	                ❌ No	                            ✅ Yes (or you lose data!)
+    Use case	                    Reading with more control	        Efficient writing
+
+
+
+
+
+
+🔸 Real-world Examples
+
+    Reading from a file:
+
+        file, _ := os.Open("file.txt")
+        reader := bufio.NewReader(file)
+        line, _ := reader.ReadString('\n')
+
+
+
+
+    Writing to a file:
+    
+        file, _ := os.Create("out.txt")
+        writer := bufio.NewWriter(file)
+        writer.WriteString("Data here\n")
+        writer.Flush()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

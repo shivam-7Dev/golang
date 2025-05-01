@@ -1,0 +1,144 @@
+URL parsing in Go
+
+
+
+📦 Import Package
+
+    import "net/url"
+
+
+
+
+
+🔍 1. Basic URL Parsing=> Use url.Parse(rawurl string) to break a URL into its parts:
+
+    package main
+
+    import (
+        "fmt"
+        "net/url"
+    )
+
+    func main() {
+        rawURL := "https://username:password@www.example.com:8080/path/to/resource?query1=val1&query2=val2#fragment"
+
+        parsedURL, err := url.Parse(rawURL)
+        if err != nil {
+            panic(err)
+        }
+
+        fmt.Println("Scheme:", parsedURL.Scheme)
+        fmt.Println("Host:", parsedURL.Host)
+        fmt.Println("Hostname:", parsedURL.Hostname())
+        fmt.Println("Port:", parsedURL.Port())
+        fmt.Println("Path:", parsedURL.Path)
+        fmt.Println("RawQuery:", parsedURL.RawQuery)
+        fmt.Println("Fragment:", parsedURL.Fragment)
+        fmt.Println("User:", parsedURL.User)
+
+        // Extract username and password
+        if parsedURL.User != nil {
+            username := parsedURL.User.Username()
+            password, _ := parsedURL.User.Password()
+            fmt.Println("Username:", username)
+            fmt.Println("Password:", password)
+        }
+    }
+
+
+
+    Part	        Meaning
+
+    Scheme	        https, http, etc.
+    Host	        www.example.com:8080 (includes port)
+    Hostname()	    Just domain www.example.com
+    Port()	        Extracted port number
+    Path	        /path/to/resource
+    RawQuery	    Raw query string (before parsing)
+    Fragment	    Part after #
+    User	        Credentials like username:password
+
+
+🔍 2. Query Parameters (Parsing ?key=value)
+
+Use parsedURL.Query() which returns url.Values (map of string to string slice):
+
+    queries := parsedURL.Query()
+    fmt.Println("Query param query1:", queries.Get("query1"))
+    fmt.Println("All query params:", queries)
+
+
+
+    for key, vals := range queries {
+        for _, val := range vals {
+            fmt.Printf("Key: %s, Value: %s\n", key, val)
+        }
+    }
+
+
+🛠 3. Building URLs from scratch
+//see the ocde eample
+
+
+
+
+What	                    How
+
+Parse URL	                url.Parse()
+Get parts	                .Scheme, .Host, .Path, .Query()
+Parse query params	        parsedURL.Query()
+Build query	                url.Values{}
+Encode value	            url.QueryEscape()
+Decode value	            url.QueryUnescape()
+Resolve relative URL	    base.ResolveReference()
+Add user info	            url.User() or url.UserPassword()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

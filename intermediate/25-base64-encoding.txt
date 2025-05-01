@@ -1,0 +1,62 @@
+✅ What is Base64 Encoding?
+
+
+Base64 is a way to encode binary data(like images, files or bytes) into text using only ASCII character.
+
+👉 How it works:
+
+    Takes binary data
+    splits it into 6 bit chunk
+    maps each chuck to a character for a set of 64 characters
+
+
+    A-Z, a-z, 0-9, +, /
+
+    Example:
+    Input: "Go!" → bytes: [71 111 33]
+    Base64 encoded: "R28h"
+
+
+❓ Why is Base64 Used?
+
+    Purpose	                                Explanation
+
+    ✅ Safe  transmission	               Binary data (e.g. image, PDF) is not always safe to send over 
+                                            email, HTTP, etc. Base64 makes it text-safe.
+
+    🌐 Embedding binary in HTML/JSON    	Base64 lets you store binary files inside strings (e.g., data:image/png;base64,...)
+
+    📦 Encoding passwords, tokens	        Encodes credentials in headers like Authorization: Basic ... (not encryption!)
+
+    ⚠ Not encryption	                    Base64 is not secure, just an encoding mechanism.
+
+
+
+📦 Base64 in Go: Use the standard library: encoding/base64
+
+    package main
+
+    import (
+        "encoding/base64"
+        "fmt"
+    )
+
+    func main() {
+        input := "Hello Shivam"
+        encoded := base64.StdEncoding.EncodeToString([]byte(input))
+        fmt.Println("Base64 Encoded:", encoded)
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

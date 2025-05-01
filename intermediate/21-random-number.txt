@@ -1,0 +1,156 @@
+🔢 What is a Random Number?
+A random number is a value generated in such a way that:
+    It is unpredictable
+    It does not follow a pattern (ideally)
+    It’s used in simulations, cryptography, games, AI, etc.
+
+But not all random numbers are truly "random". That’s where the types come in.
+
+🧭 Types of Random Number Generators (RNGs)
+
+    1. True Random Number Generator (TRNG)
+
+        Source: Based on physical phenomena (e.g., atmospheric noise, radioactive decay).
+        Hardware-based.
+        Not deterministic – you cannot reproduce the sequence.
+        Slow but high entropy (randomness).
+
+
+    2. Pseudo Random Number Generator (PRNG)
+
+        Source: Mathematical algorithms.
+        Software-based.
+        Deterministic – given the same input, it produces the same sequence.
+        Fast, but not suitable for cryptographic security.
+
+
+    3. Cryptographically Secure PRNG (CSPRNG)
+
+        Like PRNG, but specially designed to be unpredictable even if part of the sequence is known.
+        Used in security applications (e.g., token generation).
+
+
+
+
+🌱 What is a Seed?
+
+    The seed is the starting value for a PRNG.
+    Think of it as the first domino — once it's placed, the rest of the sequence falls in a predictable way.
+    If you use the same seed, the PRNG will generate the same sequence every time 
+    (this is what we mean by deterministic).
+
+
+
+🎲 How Does a PRNG Work Internally?
+
+    Seed → stored in memory.
+    An algorithm (e.g., Linear Congruential Generator, Mersenne Twister) runs a math function repeatedly.
+    Each time you call .random(), it updates the internal state and returns the next number in the sequence.
+    It looks random, but is entirely predictable from the seed.
+
+
+🔐 Why Is This Important?
+
+    Games: Same seed = same map generation (useful for testing).
+    Machine Learning: Reproducible results during training.
+    Security: You need non-predictable randomness (CSPRNG or TRNG).
+    Simulations: Predictable randomness helps in debugging.
+
+
+
+📦 1. Go Packages for Random Numbers
+
+    ➤ math/rand (Pseudo-random)
+
+        Deterministic (repeats if seed is same)
+        Good for simulations, games, etc.
+        Not secure
+
+    ➤ crypto/rand (Cryptographically secure)
+
+        Non-deterministic
+        Slower but secure
+        Used for passwords, tokens, cryptographic keys
+
+🔢 2. Using math/rand
+
+Basic usage (with same seed each time):
+
+    package main
+
+    import (
+        "fmt"
+        "math/rand"
+    )
+
+    func main() {
+        fmt.Println(rand.Intn(100)) // Random number between 0 and 99
+    }
+
+
+    ❗ Without a seed, Go uses a default seed (1), so output is always the same each time you run the program.
+
+
+Adding a seed using time.Now():
+
+    package main
+
+    import (
+        "fmt"
+        "math/rand"
+        "time"
+    )
+
+    func main() {
+        rand.Seed(time.Now().UnixNano()) // Seed once globally
+        fmt.Println(rand.Intn(100))      // Now the output varies
+    }
+    ✅ This makes the result non-deterministic for each run (because of changing time).
+
+
+🔐 3. Using crypto/rand (For secure randomness)
+
+package main
+
+    import (
+        "crypto/rand"
+        "fmt"
+        "math/big"
+    )
+
+    func main() {
+        n, _ := rand.Int(rand.Reader, big.NewInt(100))
+        fmt.Println(n) // Random secure number between 0 and 99
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

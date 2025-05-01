@@ -1,0 +1,98 @@
+ Number parsing:
+
+Numbert parsing means converting a sting("234") into a number . 
+go  provides a robust stand library to do this, manly strconv package
+
+📦 1. Import the strconv Package
+
+    import "strconv"
+
+
+
+
+🔢 2. Parse Integer from String (string -> int)
+
+➤ strconv.Atoi(s string) (int, error)
+Atoi = ASCII to integer
+Works only for base-10 integers
+
+    package main
+
+    import (
+        "fmt"
+        "strconv"
+    )
+
+    func main() {
+        s := "123"
+        n, err := strconv.Atoi(s)
+        if err != nil {
+            fmt.Println("Conversion failed:", err)
+        } else {
+            fmt.Println("Parsed int:", n)
+        }
+    }
+
+
+
+
+
+
+
+➤ strconv.ParseInt(s string, base int, bitSize int) (int64, error)
+
+    More powerful
+    Lets you choose base (2, 10, 16, etc.)
+    Lets you choose int size (8, 16, 32, 64)
+
+
+
+        s := "1010"
+        n, err := strconv.ParseInt(s, 2, 64) // binary to int64
+        fmt.Println(n) // Output: 10
+
+
+    ✅ For base-10, just do:
+
+        n, _ := strconv.ParseInt("42", 10, 64)
+
+
+
+
+
+Parse Float from String (string -> float)
+
+
+    s := "3.14159"
+    f, err := strconv.ParseFloat(s, 64)
+    fmt.Println(f) // Output: 3.14159
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
