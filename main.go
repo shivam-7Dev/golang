@@ -43,7 +43,7 @@ func main() {
 	// intermediate.RandNumberInro()
 	// intermediate.URLParsingIntro()
 	intermediate.BuffioInto()
-	intermediate.Base64Intro()
+	// intermediate.Base64Intro()
 	/*Formating
 	*advance
 	 */
