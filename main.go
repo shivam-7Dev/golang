@@ -16,6 +16,18 @@ type school struct {
 }
 
 func main() {
+	intermediate.LogIntro()
+	// USER := os.Getenv("USER")
+	// HOME := os.Getenv("HOME")
+	// fmt.Println("USER env is:", USER)
+	// fmt.Println("USER env is:", HOME)
+
+	// os.Setenv("FRUIT", "MANGo")
+	// fmt.Println("USER env is:", os.Getenv("FRUIT"))
+
+	// for _, e := range os.Environ() {
+	// 	fmt.Println("e--->", e)
+	// }
 	// fmt.Println("this is main file")
 	// basic.PrintHello() // Call the exported PrintHello function
 	// basic.Variable()
@@ -44,7 +56,10 @@ func main() {
 	// intermediate.URLParsingIntro()
 	// intermediate.BuffioInto()
 	// intermediate.Base64Intro()
-	intermediate.HasingInto()
+	// intermediate.HasingInto()
+
+	// intermediate.FlagIntro()
+	// intermediate.SubcommandIntro()
 	/*Formating
 	*advance
 	 */
@@ -57,17 +72,24 @@ func main() {
 	// inputOne()
 	// inputTwo()
 	// inputThree()
+
+	// useScan()
+	// useScanln()
+	// useScanf()
+
+	// for ind, value := range os.Args {
+	// 	fmt.Println("arg----", ind, value)
+	// }
 }
 
 func inputOne() {
 	var s school
-	fmt.Println("enter school details")
-	fmt.Println("enter school name:")
-	fmt.Scan(&s.name)
+	fmt.Print("enter your schoo name:")
+	fmt.Print("Enter your school name and medium (e.g., DPS English): ")
 
-	fmt.Println("entere school medum:")
-	fmt.Scan(&s.medium)
-	fmt.Printf("Final school details: %+v\n", s)
+	// Proper Scanf with format
+	fmt.Scanf("%s %s", &s.name, &s.medium)
+	fmt.Print("\nschool name is %v", s)
 
 }
 func inputTwo() {
@@ -161,4 +183,22 @@ func inputThree() {
 		}
 
 	}
+}
+func useScan() {
+	var s school
+	fmt.Print("Enter school name and medium (separated by space or newlines): ")
+	fmt.Scan(&s.name, &s.medium)
+	fmt.Printf("Scan -> Name: %s, Medium: %s\n", s.name, s.medium)
+}
+func useScanln() {
+	var s school
+	fmt.Print("Enter school name and medium (on the same line): ")
+	fmt.Scanln(&s.name, &s.medium)
+	fmt.Printf("Scanln -> Name: %s, Medium: %s\n", s.name, s.medium)
+}
+func useScanf() {
+	var s school
+	fmt.Print("Enter school name and medium (format: %s %s): ")
+	fmt.Scanf("%s %s", &s.name, &s.medium)
+	fmt.Printf("Scanf -> Name: %s, Medium: %s\n", s.name, s.medium)
 }

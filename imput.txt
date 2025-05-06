@@ -2,3 +2,88 @@ fmt.scanln(&s.medium).
 
     The problem is with how fmt.Scanln() works - 
     it reads input only until the first whitespace character. 
+
+ 
+✅ 1. fmt.Scan
+
+    Reads whitespace-separated input
+    Good for simple space-separated input
+
+        var name string
+        var age int
+        fmt.Print("Enter name and age: ")
+        fmt.Scan(&name, &age)
+        fmt.Println(name, age)
+
+    👤 Input: Shivam 27
+    🖨️ Output: Shivam 27
+
+    Effect of Enter: Enter is treated like any other whitespace,
+                    so it doesn't end the input until all expected values are entered.
+                    It keeps reading until all variables are filled, even across multiple lines.
+
+ 
+
+
+✅ 2. fmt.Scanln
+
+    Same as Scan but stops reading at the newline (\n)
+    Each input must be on the same line
+
+        var name string
+        var age int
+        fmt.Print("Enter name and age: ")
+        fmt.Scanln(&name, &age)
+        fmt.Println(name, age)
+
+        👤 Input: Shivam 27\n
+        🖨️ Output: Shivam 27
+
+        ⚠️ If you press Enter after just Shivam, it won’t proceed — it expects all values before the newline.
+        Enter (newline) ends the input immediately.
+        If you press Enter before all variables are filled, the function stops early and may leave variables unset.
+
+✅ 3. fmt.Scanf
+
+
+Most powerful, allows formatted input (like C's scanf)N
+You must provide a format string like "%s %d"
+
+
+    var name string
+    var age int
+    fmt.Print("Enter name and age: ")
+    fmt.Scanf("%s %d", &name, &age)
+    fmt.Println(name, age)
+
+    👤 Input: Shivam 27
+    🖨️ Output: Shivam 27
+
+    ✅ Pros: Control over input structure
+    ❌ Cons: User must follow exact format
+    If the user presses Enter before completing the format, it waits for the rest.
+    Whitespace (including Enter) is allowed between format specifiers, but not inside them.
+   Stops at newline, does not fill remaining variables
+
+
+📝 Summary
+    Use Scan when you want space-separated input.
+    Use Scanln if you want to read input up to a newline.
+    Use Scanf for structured or formatted input.
+
+
+
+Function	Enter After First Value?	    Effect
+Scan	    ✅ Allowed	                   Continues reading next value on new line
+Scanln	    🔴 Not Allowed	                Stops at newline, does not fill remaining variables
+Scanf	   🔴 Not Allowed		       Stops at newline, does not fill remaining variables
+
+
+
+
+
+
+
+
+
+

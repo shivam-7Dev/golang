@@ -3,6 +3,7 @@ package intermediate
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"os"
 	"strings"
 )
@@ -12,7 +13,15 @@ func BuffioInto() {
 	// basicStringReader()
 	// basicStingReader2()
 	// basicbufiowirter()
-	basicWriter()
+	// basicWriter()
+	// souncedestination()
+
+	err := copyFileBuffered("24-bufio-package.txt", "destination.txt")
+	if err != nil {
+		fmt.Println("Error copying file:", err)
+	} else {
+		fmt.Println("File copied successfully.")
+	}
 }
 
 func basicStringReader() {
@@ -121,4 +130,84 @@ func basicWriter() {
 	}
 	fmt.Println("suscessfully written on the standard output", n)
 	writer.Flush()
+}
+
+func souncedestination() {
+	//open source file in readonly mode
+	source, err := os.Open("24-bufio-package.txt")
+	if err != nil {
+		fmt.Println("error opeingn source file")
+		return
+	}
+	defer source.Close()
+
+	//open destination file in wirte only mode
+	destination, err := os.OpenFile("24.4.copy.txt", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+	if err != nil {
+		fmt.Println("error opeingn destination file")
+		return
+	}
+	defer destination.Close()
+	//create bufio.reder
+	reader := bufio.NewReader(source)
+	//create bufio.writer
+	writer := bufio.NewWriter(destination)
+	// use for loop
+	for {
+		// read bytes or line for source
+
+		line, err := reader.ReadString('\n')
+		if err != nil {
+			fmt.Println("error reading line")
+			return
+		}
+		//write bytes or line to destination
+
+		writer.WriteString(line)
+
+	}
+
+}
+
+func copyFileBuffered(srcPath, dstPath string) error {
+	// Step 1: Open source file
+	srcFile, err := os.Open(srcPath)
+	if err != nil {
+		return fmt.Errorf("failed to open source: %w", err)
+	}
+	defer srcFile.Close()
+
+	// Step 2: Create destination file
+	dstFile, err := os.Create(dstPath)
+	if err != nil {
+		return fmt.Errorf("failed to create destination: %w", err)
+	}
+	defer dstFile.Close()
+
+	// Step 3 & 4: Create buffered reader and writer
+	reader := bufio.NewReader(srcFile)
+	writer := bufio.NewWriter(dstFile)
+
+	// Step 5: Create a buffer and loop
+	buffer := make([]byte, 1024*1024) // 1 MB buffer
+	for {
+		n, err := reader.Read(buffer)
+		if err != nil && err != io.EOF {
+			return fmt.Errorf("read error: %w", err)
+		}
+		if n == 0 {
+			break // End of file
+		}
+
+		if _, err := writer.Write(buffer[:n]); err != nil {
+			return fmt.Errorf("write error: %w", err)
+		}
+	}
+
+	// Step 6: Flush writer
+	if err := writer.Flush(); err != nil {
+		return fmt.Errorf("flush error: %w", err)
+	}
+
+	return nil
 }
