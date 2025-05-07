@@ -16,7 +16,7 @@ type school struct {
 }
 
 func main() {
-	intermediate.LogIntro()
+	// intermediate.LogIntro()
 	// USER := os.Getenv("USER")
 	// HOME := os.Getenv("HOME")
 	// fmt.Println("USER env is:", USER)
@@ -60,6 +60,8 @@ func main() {
 
 	// intermediate.FlagIntro()
 	// intermediate.SubcommandIntro()
+	// intermediate.JSONINTRO()
+	intermediate.IO()
 	/*Formating
 	*advance
 	 */
