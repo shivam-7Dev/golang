@@ -61,7 +61,8 @@ func main() {
 	// intermediate.FlagIntro()
 	// intermediate.SubcommandIntro()
 	// intermediate.JSONINTRO()
-	intermediate.IO()
+	// intermediate.IO()
+	intermediate.IOINTRO()
 	/*Formating
 	*advance
 	 */

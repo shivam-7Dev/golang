@@ -1,0 +1,45 @@
+common flags and Permission code for opeing a file
+
+Common Flags for os.OpenFile
+
+    Flag	        Description
+
+    os.O_RDONLY	    Open the file read-only
+    os.O_WRONLY	    Open the file write-only
+    os.O_RDWR	    Open the file read-write
+    os.O_APPEND	    Append data to the file when writing
+    os.O_CREATE	    Create a new file if none exists
+    os.O_EXCL	    Used with O_CREATE, file must not exist
+    os.O_SYNC	    Open for synchronous I/O
+    os.O_TRUNC	    Truncate file when opened
+
+    file, err := os.OpenFile("example.txt", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
+
+
+
+Common  Permission Codes
+
+    Code	Meaning (r=read, w=write, x=execute)
+    0400	Read by owner
+    0200	Write by owner
+    0100	Execute by owner
+    0040	Read by group
+    0020	Write by group
+    0010	Execute by group
+    0004	Read by others
+    0002	Write by others
+    0001	Execute by others
+
+    The third argument to os.OpenFile only matters if the file is being created.
+    For just opening (reading/writing) an existing file, 
+    you can put any value there and it will still work 
+    (as long as you have the OS-level permissions to access the file).
+
+
+
+
+
+
+
+
+

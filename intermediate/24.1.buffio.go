@@ -37,20 +37,31 @@ func basicStringReader() {
 		line, _ := reader.ReadString('\n')
 		here we get string as an output
 	*/
-	// var stringReader *strings.Reader
 
-	stringReader := strings.NewReader("Hello! my\n name is \nshivam sharma")
-	data := make([]byte, 2)
-	reader := bufio.NewReader(stringReader)
+	//1. create a source for reading
+	source := strings.NewReader("Hello! my\n name is \nshivam sharma")
+	//2. create reader from source
+	reader := bufio.NewReader(source)
+
+	//3. create a buffer slice for 2 bytes, could of any bytes
+	dataBucket := make([]byte, 2)
+	//4. reade the fist for reder by reader.ReadString(delimter)
 	line, _ := reader.ReadString('\n')
 	fmt.Println("line:", line)
+
+	/*
+		read all bytes/lines from reader using infinite loop
+		 this loop will run forever
+		you have to check till reading gives error
+		if reading the gives error then break the loop
+	*/
 	for {
-		n, err := reader.Read(data)
+		n, err := reader.Read(dataBucket)
 		if err != nil {
 			fmt.Println("error")
 			return
 		}
-		fmt.Printf("nunber of bytes %d and charater %s\n", n, data[:n])
+		fmt.Printf("nunber of bytes %d and charater %s\n", n, dataBucket[:n])
 	}
 }
 
@@ -79,20 +90,25 @@ func basicStingReader2() {
 }
 
 func basicbufiowirter() {
-	file, err := os.Open("24.3.txt")
+
+	//open a source file
+	sourceFile, err := os.Open("24.3.txt")
 	if err != nil {
 		fmt.Println("error while opeing file", err)
 		return
 	}
-	reader := bufio.NewReader(file)
-
-	newfile, err := os.Create("fist.txt")
-	writer := bufio.NewWriter(newfile)
+	//create reader from source
+	reader := bufio.NewReader(sourceFile)
+	//create a destination file
+	destinationFile, err := os.Create("fist.txt")
+	//create a writer from destination file
+	writer := bufio.NewWriter(destinationFile)
 	if err != nil {
 		fmt.Println("error while creatin file")
 		return
 	}
 
+	//ifninte loop over the reader and write to writer
 	for {
 
 		line, err := reader.ReadString('\n')
